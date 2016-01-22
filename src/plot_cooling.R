@@ -21,6 +21,11 @@ p	   = get.var.ncdf(nc,"p")
 kmin   = which.min(tabs)
 zvec   = 1:kmin
 rhov   = qv*rho 
+ktp 	= which.min(abs(tabs[1:60]-200))
+Ts 	   	= 300
+Ttp		= tabs[ktp]
+ptp		= p[ktp]
+gamma 	= g/Rd*log(Ttp/Ts)/log(ptp/ps)
 
 	
 kvals1 = seq(100,999,length.out=100)
@@ -49,12 +54,12 @@ for (k in  1:length(tabs)){
 	weight1[ ,k] = dtau1dz[ ,k]*exp(-0.5*(tau1[ ,k]+tau1[ ,k+1]))
 }
 
-# Approx 2 -- scale p at z only, parametrize path, constant gamma=6.5 K/km
+# Approx 2 -- scale p, T at z only, parametrize path, constant gamma
 Ts = 300 # K
-tau2 = kappa_vals%o%((exp(-L/Rv/tabs)/kappa0)*ps/p0*(tabs/Ts)^(g/Rd/gamma))
+tau2 = (kappa_vals%o%((exp(-L/Rv/tabs)/kappa0)*ps/p0*(tabs/Ts)^(g/Rd/gamma)))*ts_array
 weight2 = array(dim=c(nk,nz))
 for (k in  1:nz){
-	weight2[ ,k] =  (L*gamma/Rv/tabs[k]^2+g/Rd/tabs[k])*tau2[ ,k]*exp(-tau2[ ,k])
+	weight2[ ,k] =  (gamma/tabs[k]^2*(L/Rv + Tstar_vals) + g/Rd/tabs[k])*tau2[ ,k]*exp(-tau2[ ,k])
 }
 
 source = 1e3*t(pi*outer(tabs,1e2*kvals,planck_k))  # W/m^2/(10 cm^-1)

@@ -9,8 +9,8 @@ source("~/Dropbox/rad_cooling/git/src/h2o_data.R")
 ncpath = "~/Dropbox/rad_cooling/data/H2O_only_300K/verticalstats_slice.nc"
 nc	   = open.ncdf(ncpath)
 z      = get.var.ncdf(nc,"z")
-zint   = zinterp(z)
 nz	   = length(z)
+zint   = zinterp(z)
 dzvec  = c(diff(zint),zint[nz]-zint[nz-1])
 nt	   = length(time)
 tabs   = get.var.ncdf(nc,"tabs")
@@ -22,7 +22,7 @@ lwdown = get.var.ncdf(nc,"lwdown")
 lwupc  = get.var.ncdf(nc,"lwupc")
 lwdownc= get.var.ncdf(nc,"lwdownc")
 kmin   = which.min(tabs)
-zvec   = 1:kmin
+zvec   = 2:kmin
 rhov   = qv*rho 
 ktp 	= which.min(abs(tabs[1:60]-200))
 Ts 	   	= 300
@@ -30,10 +30,7 @@ Ttp		= tabs[ktp]
 ptp		= p[ktp]
 gamma 	= g/Rd*log(Ttp/Ts)/log(ptp/ps)
 Tav 	= 1/2*(Ts+200)
-H 		= (g/Rd/Tav)^-1
-xav 	= L/Rv/Tav
-p_est	= ps*exp(-1/H*(Ts/gamma - Tav/gamma*(1-1/xav*(L/Rv/tabs - xav))))
-wvpinf 	= RH*einf/gamma/L*Tav
+wvpinf 	= RH*einf*Tav/gamma/L
  
 kvals1 = seq(100,999,length.out=100)     # cm^-1
 kvals2 = seq(1001,1500,length.out=100)
@@ -43,8 +40,6 @@ kint   = 1/2*( c(kvals[1]-diff(kvals)[1],kvals)+c(kvals,kvals[nk]+diff(kvals)[nk
 kappa_vals = c(kappa_h20(kvals1),kappa_h20(kvals2))
 Tstar_vals = c(Tstar_h20(kvals1),Tstar_h20(kvals2))
 ts_array   = outer(Tstar_vals,tabs,temp_scaling)
-alphak	   = Rv*Tav/L*(Tav/gamma/H + Tstar_vals/Tav + L/Rv/Tav)
-
 
 # Approx 1 -- parametrize kappa, use temp and p scalings from Humbert (eqn. 3)
 dtau1dz = (kappa_vals%o%(rhov*p/p0))*ts_array	#sss
@@ -63,10 +58,10 @@ Ts = 300 # K
 tau2 = (kappa_vals%o%((exp(-L/Rv/tabs)/kappa0)*ps/p0*(tabs/Ts)^(g/Rd/gamma)))*ts_array
 weight2 = array(dim=c(nk,nz))
 for (k in  1:nz){
-	weight2[ ,k] =  (L*gamma/Rv/tabs[k]^2+g/Rd/tabs[k])*tau2[ ,k]*exp(-tau2[ ,k])
+	weight2[ ,k] =  (gamma/tabs[k]^2*(L/Rv + Tstar_vals) + g/Rd/tabs[k])*tau2[ ,k]*exp(-tau2[ ,k])
 }
 
-# integrate above over k
+# calculate flux_divi
 source   = 1e2*t(pi*outer(tabs,1e2*kvals,planck_k))    # W/m^2/(cm^-1)
 for (i in 1:2){
 	weight = eval(as.name(paste("weight",i,sep="")))
@@ -74,10 +69,14 @@ for (i in 1:2){
 	}
 
 # analytic formulation
-lk = 6500  #m^-1
-k1 = lk*( log(kappa_h20(0)/kappa0) + log(ps/p0) - g/Rd/gamma*log(Ts/tabs) - L/Rv/tabs ) #m^-1
+b_kappa = 1.5e-4  # -dTstar/dk, 1/m^-1
+b_Tstar = 2.2e-2  # -dlnkappa/dk, K/m^-1
+l_k		= 1/(b_kappa + b_Tstar*(1/tabs-1/T0))
+#k1 = lk*( log(kappa_h20(0)/kappa0) + log(ps/p0) - g/Rd/gamma*log(Ts/tabs) - L/Rv/tabs ) #m^-1
+k1 = l_k*( log(kappa_h20(0)/kappa0) + log(ps/p0) - g/Rd/gamma*log(Ts/tabs) - L/Rv/tabs -Tstar_h20(0)*(1/tabs-1/T0) ) #m^-1
 k1[k1 < 0 ] <- 1e-4
-flux_div3 = pi*planck_k(tabs,k1)*(g/Rd/tabs +L*gamma/Rv/tabs^2)*lk   # W/m^3
+
+flux_div3 = pi*planck_k(tabs,k1)*(g/Rd/tabs + gamma/tabs^2*(L/Rv + Tstar_h20(1e-2*k1)))*l_k   # W/m^3
 
 #DAM output
 flux_div_dam   = partialder_i2s(3,z,lwup-lwdown)	# W/m^3
@@ -104,7 +103,7 @@ for (i in 1:Napprox){
 	flux_div = eval(as.name(paste("flux_div",i,sep=""))) 
 	points(flux_div[zvec],tabs[zvec],type="l",lwd=2,col=colvec[i],lty="solid")
 	}
-legend("topright",c("RRTM","Eqn. (3)","Eqn. (8)","Eqn. (12)"),
+legend("topright",c("RRTM","Eqn. (3)","Eqn. (9)","Eqn. (13)"),
 		col=c("black",colvec),cex=1.25,lwd=2)
 
 dev.off()
