@@ -61,6 +61,7 @@
 \newcommand{\ppx}{\ensuremath{\partial_x}}
 \newcommand{\ppy}{\ensuremath{\partial_y}}
 \newcommand{\ppz}{\ensuremath{\partial_z}}
+\newcommand{\ppt}{\ensuremath{\partial_T}}
 \newcommand{\ppp}{\ensuremath{\partial_p}}
 
 
@@ -79,6 +80,7 @@
 \newcommand{\cool}{\ensuremath{\mathcal{C}}}
 \newcommand{\cminverse}{\ensuremath{\mathrm{cm^{-1}}}}
 \newcommand{\pierre}{P10}
+\newcommand{\tauk}{\ensuremath{\tau_k}}
 
 % meteorology shorthand
 \newcommand{\qv}{\ensuremath{q}}
@@ -98,6 +100,7 @@
 \newcommand{\zlcl}{\ensuremath{z_\mathrm{LCL}}}
 \newcommand{\Tlcl}{\ensuremath{T_\mathrm{LCL}}}
 \newcommand{\Ttp}{\ensuremath{T_\mathrm{tp}}}
+\newcommand{\ptp}{\ensuremath{p_\mathrm{tp}}}
 \newcommand{\lapseav}{\ensuremath{\Gamma_\mathrm{av}}}
 \newcommand{\gammaav}{\ensuremath{\Gamma_\mathrm{av}}}
 \newcommand{\Kinverse}{\ensuremath{\mathrm{K^{-1}}}}
@@ -116,7 +119,7 @@
 %% ------------------------------------------------------------------------ %%
 
 
-\title{An Analytical Model for  Radiative Cooling in a Moist Atmosphere}
+\title{Optical Depth, Temperature Invariance, and Radiative Cooling  in a Moist Atmosphere}
 
 %% ------------------------------------------------------------------------ %%
 %
@@ -152,8 +155,148 @@ Introduction here
 %================%
 % Model construction  %
 %================%
-\section{Construction of the model}
-In this section we construct a spectrally resolved, analytical model for radiative cooling due to water vapor in an Earth-like atmosphere where water vapor is a condensable, minor constituent. The basic strategy will be to  simply parameterize $\kappa(k)$, the mass absorption coefficient ($\mathrm{m^2/kg}$) of water vapor as a function of wavenumber (or inverse wavelength) $k$, and use this parameterization to compute the optical depth $\tau_k$. This will give us the transmission function $\trans_k \equiv \exp(-\tau_k)$, which we can use to estimate the longwave flux divergence $\ppz \FLW_k$ via the cooling-to-space (CTS) approximation
+\section{Optical depth}
+In this section we derive an analytical expression for the optical depth profile  $\tau_k$ of water vapor at a given wavenumber $k$.
+
+A comprehensive formula for $\tau_k$ at height $z$ is given in  Eqn. (4.67) of \cite[][hereafter \pierre]{pierrehumbert2010},
+	\beqn
+		\tau_k = \int_z^\infty \kappa(k) \frac{p(z')}{p_0}S_k(T(z')) \rho_v\, dz'  
+		\label{tau1}
+	\eeqn
+where $\kappa(k)$ is the mass absorption coefficient ($\mathrm{m^2/kg}$) at wavenumber $k$ , $\rho_v$ is the density of water vapor, and $p/p_0$ and $S_k(T)$ represent the effects of pressure and temperature scaling, respectively (\pierre). The reference pressure and temperature $p_0$ and $T_0$ are set to 100 hPa and 260 K as in \pierre, and the temperature scaling  is given by 
+	\beqn
+		S_k(T) =  \exp\left[-T_k^*\left(\frac{1}{T}-\frac{1}{T_0}\right)\right]\; ,  
+		\label{Tscaling}
+	\eeqn
+	where $T_k^*$ is tabulated from spectroscopy and may be estimated, for instance, from Fig. 4.20 of \pierre (see Eqn. \eqnref{Tstar_param} below) 
+
+
+The formula  \eqnref{tau1} for $\tau_k$ is too complicated to be analytically tractable, so  we make several simplifications.  First, since the integral in \eqnref{tau1} is dominated by values of the integrand close to $z$, we evaluate $p$ and $S_k(T)$ at $z$ and pull it out of the integral. This allows us to write $\tau_k$ in terms of the water vapor path $\WVP\equiv \int_z^\infty  \rho_v\, dz'$ as
+	\beqn
+		\tau_k =  \kappa(k) \frac{p}{p_0} S_k(T)\cdot \WVP \; .
+	\label{tauWVP}
+	\eeqn
+To estimate the water vapor path, we first write the vapor density as 
+	\beqn
+		\rho_v =  \RH\, p_v^*(T)/R_ vT \; ,
+	\label{rhov}
+	\eeqn
+	 where $p_v^* = p_v^\infty \exp(-L/R_vT)$ is the vapor pressure of water ($p_v^\infty = 2.5\times 10^{11} $ Pa) and all other symbols have their usual meaning. Assuming a constant  \RH,  $\rho_v$ is then a function of temperature only \comment{add plots of \rhov\ here}. This suggests that we also view \WVP\ as a function of temperature only, and we thus write it as 
+	\beqn
+		\WVP(T) =\frac{ \RH\, p_v^\infty}{R_v \gammaav}\int^T_{\Ttp} \frac{e^{-L/R_v T'}}{T'}\; dT' \; 
+	\label{WVP1}
+	\eeqn	
+where we assume a constant, average lapse rate $\gammaav$ and we take the lower limit of our integral to be the tropopause temperature \Ttp\ (this neglect of stratospheric water vapor does not affect our results). 
+
+To evaluate the integral in \eqnref{WVP1}, we switch variables to $x\equiv L/R_v T$, which gives
+	\beqn
+		\int^T_{\Ttp} \frac{e^{-L/R_v T'}}{T'}\; dT' \ = \ \int_x^{x_\mathrm{tp}} \frac{e^{-x'}}{x'} dx' \ \approx\ \frac{1}{x_{\mathrm{av}}}\int_x^{x_\mathrm{tp}} e^{-x'} dx' \ \approx\ \frac{e^{-x}}{x_{\mathrm{av}}}.
+		\label{int_approx}
+	\eeqn
+To make the first approximation above we note that $x$ varies between -18 and -27 as $T$ varies between $T=300$ K and $\Ttp \equiv  200$ K, and so the exponential $e^{-x'}$ is varying much more than the factor of $1/x'$. We thus set the latter  to $1/x_{\mathrm{av}}\equiv R_v \Tav/L$ where $\Tav \equiv (\Ts + \Ttp)/2$ and \Ts\ is the surface temperature, and pull $1/x_{\mathrm{av}}$ outside the integral. The last approximation follows from neglecting the boundary term $e^{-x_\mathrm{tp}}$. Plugging \eqnref{int_approx} into \eqnref{WVP1} yields
+	\beqn
+		\WVP(T) =\WVP_0\exp\left(-\frac{L}{R_vT}\right),\quad \mbox{where}\quad  \WVP_0 \equiv \frac{\RH\, p_v^\infty\, \Tav}{L\,\gammaav} \; .
+	\label{WVP2}
+	\eeqn
+(The quantity $\WVP_0$ should be interpreted as a characteristic, though not necessarily realistic, value of \WVP, analogous to $p_v^\infty$ for $p_v^*$.)  As a  check, Figure \ref{wvp_check} juxtaposes \WVP\ diagnosed from a CRM RCE simulation with \Ts=300 K with \WVP\ estimated via \eqnref{WVP2}, with \RH\ set to 70\% for the latter by eyeball fit and \gammaav\ diagnosed by evaluation of \eqnref{pressure} below at $\Ttp$. The constant \RH\ assumption underestimates boundary layer \WVP, and neglect of the ice phase (and concomitant lower saturation vapor pressure) leads to a slight overestimate of WVP at upper levels, but otherwise the fit is decent.
+
+We can now plug in our  expression for \WVP\ into \eqnref{tauWVP}. However, since \WVP\ is naturally a function of temperature, we should express $\tau_k$ as a function of temperature as well. This means writing $p$ as 
+	\beqn
+		p=\ps(T/\Ts)^{g/R_d\gammaav} \; ,
+	\label{pressure}
+	\eeqn 
+	which is the expression for $p(T)$ for an atmosphere with constant lapse rate $\gammaav$. Putting all this together yields our  analytical expression for $\tau_k$ in terms of elementary functions,
+	\beqn
+		\tau_k(T) = \kappa(k)\, S_k(T)\, \frac{\ps}{p_0}\left(\frac{T}{\Ts}\right)^{\frac{g}{R_d\gammaav}}\cdot \WVP_0\exp\left(-\frac{L}{R_v T}\right) \quad .
+	\label{tau2}
+	\eeqn
+Though this expression is approximate, it contains no unobservable, tunable parameters. We check our approximations by comparing profiles of $\tau_k$ for  $k=(100,\ 500,\ 900)\ \cminverse$ as computed from both \eqnref{tau1} and \eqnref{tau2}; these are shown in solid and dashed lines respectively in Figure \ref{tauk}. Though the biases in \WVP\ from Figure \ref{wvp_check} are certainly evident, the match between our analytical expression \eqnref{tau2} and the numerical calculation using \eqnref{tau1} is reasonable.
+
+
+%===================%
+% Temperature invariance %
+%===================%
+\section{Temperature Invariance}
+		Eqn. \eqnref{tau2} suggests that $\tau_k$ is primarily a function of temperature only, with little dependence on pressure,  surface temperature, or other atmospheric variables. In particular, an insensitivity of our optical depth profiles (and the radiative processes they govern) to surface temperature \Ts\ might yield a simple picture of how such processes will change with global warming. 
+
+	\subsection{Temperature invariance of optical depth}
+		From Eqn. \eqnref{tau2} we see that $\tau_k$ depends on \Ts\ directly, as well as through changes in the average moist lapse rate \gammaav\ and also \Tav. Chasing through the partial derivatives yields
+		\beqn
+			\der{\ln \tau_k}{\Ts} \ =\ - \underbrace{\frac{g}{R_d \gammaav \Ts}}_{\textstyle{\partialderf{\tau_k}{\Ts}}} \ - \
+							  \underbrace{ \frac{1}{\gammaav}\der{\gammaav}{\Ts}\left( 1 + \frac{g}{R_d \gammaav} \ln(T/\Ts) \right) }_{\textstyle{\partialderf{\tau_k}{\gammaav}\der{\gammaav}{\Ts}}} \ + \
+							 \underbrace{\frac{1}{\Ts + \Ttp}}_{\textstyle{\partialderf{\tau_k}{\Tav}\der{\Tav}{\Ts}}}  \ .
+		\n
+		\eeqn
+The first term is roughly -0.02 \Kinverse, the last .002 \Kinverse, and the middle ranges from -.015 to + .015 \Kinverse\ from the upper to lower troposphere respectively. On balance, then, we expect virtually no sensitivity in the lower troposphere, and sensitivity of about $- 3 \%$ \Kinverse\ in the upper troposphere. These predictions are confirmed by Fig. \ref{tauk_varsst}, in which we plot $\tau_k$ for $\Ts=(280,290,300,310)$ K. As above,  \gammaav\ is diagnosed from RCE CRM simulations at those \Ts\ using \eqnref{pressure} evaluated at $T=\Ttp,\ p=p(\Ttp)$. Indeed we find a sensitivity in the upper troposphere of about 100\% over a \Ts\ range of 30 K, or roughly  3\% \Kinverse, and no discernible sensitivity in the lower troposphere.
+
+	\subsection{Temperature invariance of radiative fluxes}
+		We now consider the implications of the  \Ts-invariance of \tauk\ for radiative transfer. The solutions to the two-stream  equations for upwelling and downwelling spectral flux $U_k$ and $D_k$ 
+		$\mathrm{(W/m^2/\cminverse})$ are 
+		\begin{subequations}
+			\begin{align}
+				U_k & = \pi B_k(\Ts)e^{-(\tauk(\Ts) -\tauk)} + \int_{\tauk}^{\tauk(\Ts)} \pi B_k(\tauk')e^{-(\tauk'-\tauk)} d\tauk'  \label{Uk}\\
+				D_k & =  \int_0^{\tauk} \pi B_k(\tauk')e^{-(\tauk-\tauk')} d\tauk'  \ .\label{Dk}
+			\end{align}
+		\end{subequations}
+Since $\tauk(T)$ is insensitive to \Ts, Eqn. \eqnref{Dk} suggests that $D_k(T)$ will be as well. As for $U_k$, whenever $\tauk(\Ts) - \tauk(T) \gg 1$(i.e. when the surface is not `visible' from level $T$),  it should also be insensitive to \Ts. For a given, $T$, though, this is generally only true for part of the spectrum. Nevertheless, the foregoing suggests that the spectrally integrated downwelling and upwelling fluxes  $U$ and $D$ $(\mathrm{W/m^2}$), when plotted as functions of temperature, should not exhibit a strong \Ts-dependence. This is confirmed in Fig. \ref{UD_tinv}, where for contrast these fluxes are plotted in $z$, $p$, and $T$ coordinates, across our \Ts\ range. Indeed, the fluxes for various \Ts\ approximately collapse when plotted in temperature coordinates. For 
+$D$ in particular, this suggests that, up to variations in \RH, radiative fluxes are given by universal functions of temperature. This is because the spectral fluxes are determined by optical depth profiles $\tauk$ which are themselves universal functions of temperature. This, in turn, is due to the strong dependence of \tauk\ on \rhov, which up to \RH\ variations is a simple universal function of temperature, given by \eqnref{rhov} and dominated by Clausius-Clapeyron.
+
+
+	\subsection{Temperature invariance of flux divergence}
+		A primary radiative quantity of interest is the net flux divergence $\ppz F \equiv \ppz (U-D)$, units  $\mathrm{W/m^3}$, as this gives the radiative cooling that drives atmospheric motions. The insensitivity of $U(T)$ and $D(T)$ to \Ts\ raises the hope that perhaps $\ppz F(T)$ is insensitive to \Ts as  well. To investigate this we consider the spectral net flux divergence $\ppz F_k \equiv \ppz (U_k-D_k)\ \  \mathrm{(W/m^3/\cminverse})$,
+	\beqn
+		 \ppz F_k = \frac{d(U_k-D_k)}{dz} = \frac{d(U_k-D_k)}{d\tauk}\der{\tauk}{z} = (2\pi B_k-U_k-D_k)\kappa(k)\frac{p}{p_0}S_k(T) \rhov \; . 
+		 \label{ppzfk}
+	\eeqn
+To the extent that $U_k(T)$ and $D_k(T)$ are $\Ts$-invariant (and invoking the $\Ts$-invariance of $\rhov(T)$ and $B$), $\ppz F_k(T)$ should then also be roughly \Ts-invariant. We check this by plotting profiles of $\ppz F$ in Figure \ref{ppzf_tinv_dam}, again in  $z$, $p$, and $T$ coordinates. We again see that the profiles collapse when plotted in temperature coordinates, with a slight decrease ( $\sim -0.5 \%\ \Kinverse$) with increasing \Ts. 
+
+Though a complete analysis relating the \Ts-dependence of the spectrally resolved expression \eqnref{ppzfk} to the \Ts-dependence of the bulk fluxes $U$ and $D$ would be involved, we can infer that the decrease of $\ppz F(T)$ with \Ts\ is likely due to the pressure broadening factor $p/p_0$ in \eqnref{ppzfk}. From \eqnref{pressure} we have
+	\beqn
+		\frac{ d \ln  p}{d \Ts} = -\frac{g}{R_d \gammaav}\left[ \frac{1}{\Ts} + \frac{1}{\gammaav}\der{\gammaav}{\Ts}\ln(T/\Ts) \right] \ .
+		\n
+	\eeqn 
+	This varies between roughly $-1.5 \%\ \Kinverse$ in the lower troposphere to $-3 \%\ \Kinverse$ in the upper troposphere, larger in magnitude than the observed change of  $\sim -0.5 \%\ \Kinverse$ in $\ppz F(T)$. Since the only other \Ts\ dependence in Eqn. \eqnref{ppzfk} is through $-U_k - D_k$, the \Ts-dependence of the latter must offset that due to pressure broadening, with pressure broadening dominating.
+	
+	
+	\subsection{A simple picture for column-integrated radiative cooling}
+		The simple behavior of $\ppz F$ in temperature coordinates allows for a simple picture of how column-integrated LW radiative cooling $Q$ changes with surface temperature. 
+%Since this quantity is what determines (modulo SW  absorption) mean precipitation, we will also obtain a simple first order picture of mean precipitation and how it changes with warming. In particular,  model results show that $Q$  changes at a rate of a few \% \Kinverse\ \citep{ogorman2012}, and this result is known to be a result of radiative water-vapor feedbacks \citep{pendergrass2014}, but a back-of-the-envelope estimate of this number has been lacking. Such an estimate will be our goal in this subsection.
+To proceed, we write $Q$ as an integral over the free troposphere (i.e. above the lifting condensation level \zlcl\ ) and switch to temperature coordinates: 
+	\beqn
+		Q = \int_{\zlcl}^{\ztp} \partial_{z'} F dz'  = \int_{\Ttp}^{\Tlcl} \frac{\partial_{z'} F}{\Gamma} dT' \ . 
+		\n
+	\eeqn
+  The change in $Q$ with surface temperature is then just
+	\begin{align}
+		\der{Q}{\Ts} \approx \der{Q}{\Tlcl} & =  \left. \frac{\ppz F}{\Gamma}\right |_{\mathrm{LCL}} - \int_{\Ttp}^{\Tlcl}\frac{\partial_{z'} F}{\Gamma^2}\partialderf{\Gamma}{\Ts} \n  \\
+				& \approx \left. \frac{\ppz F}{\Gamma}\right |_{\mathrm{LCL}} - \frac{Q}{\gammaav}\partialderf{\gammaav}{\Ts} \ . \label{dqdts}
+	\end{align}
+One can interpret this as follows. The cooling profile of the atmosphere $\ppz F(T)$ is insensitive to $\Ts$, and so changes in its integral $Q$ only stem from increases in the depth of the troposphere. These increases have two sources: an increase in the temperature range of the troposphere (first term in \eqnref{dqdts}), and an increase in the vertical distance covered by a fixed temperature range, i.e. a decrease in \gammaav\ (second term).
+
+Let us check if \eqnref{dqdts} can, given output from an RCE simulation at a particular \Ts, predict how $Q$ will change as $\Ts$ is increased. 
+For definiteness we set $\partialderf{\gammaav}{\Ts}= 1\times 10^{-4} \ \mathrm{m\inverse}$; this is broadly consistent with our \gammaav\ values diagnosed above, and is  typical of the change per degree Kelvin in the moist adiabatic lapse rate at a fixed mid-tropospheric pressure. We also set \zlcl = 1000 m; this is a bit above the actual LCL, but exhibits moist lapse rates more typical of the lower troposphere, whereas lapse rates at the actual LCL are biased towards the dry-adiabatic value of the boundary layer. 
+
+With these diagnostics in place, Eqn. \eqnref{dqdts} predicts $d Q/d \Ts = (3.7,\ 4.4,\  6.7)\ \mathrm{W\ m^{-2}\ \Kinverse}$ for $\Ts= (280,\ 290,\ 300)$ K. Computing $Q$ directly from our CRM simulations and dividing by the SST difference of  10 K yields  $d Q/d \Ts = (3.3,\ 4.4,\  5.5)\ \mathrm{W\ m^{-2}\ \Kinverse}$, in decent agreement with our estimate. 
+
+
+    %==================%
+    % runaway greenhouse  %
+    %=================%
+	\subsection{The SST-dependence of OLR} 
+		The \Ts-invariance of $\ppz F$ also has implications for the dependence of outgoing longwave radiation (OLR) on \Ts. The left panel of Fig. \ref{f_pptf} shows $F$ for our various SST simulations, and a fairly uniform increase of OLR with SST is evident. What is the the origin of this increase? Though surface emission clearly plays a role for $\Ts < 300$ K, It does not appear to play a role for $\Ts > 300$ K, as $F$(300 K) is identical for $\Ts=300$ and 310 K. Other authors have also found that surface emission does not contribute to OLR in this regime \citep[e.g.][]{goldblatt2013}. Furthermore, we saw above that $\ppz F$ actually \emph{decreases} with increasing \Ts, due to pressure broadening. How, then, can OLR increase with \Ts? 
+		
+		The answer lies in the decrease of lapse rate with \Ts. If we plot $\partial_T F = (\ppz F)/\Gamma$ instead of $\ppz F$ (right panel of Fig. \ref{f_pptf}), we find that decreasing lapse rates cause $\ppt F$ to increase with \Ts, even while $\ppz F$ decreases. In other words, even though the cooling (in $\mathrm{W/m^3}$) over a given temperature range is decreasing with \Ts, the depth of that temperature range is increasing, and hence the total cooling over that layer  is increasing, thus increasing the OLR. 
+		
+		\comment{Might be good to explain this from a single line point of view. i.e., why does the emission from any given wavenumber $k$ increase with warming? } 
+	
+	
+
+\pagebreak
+%===============%
+% Radiative cooling   %
+%================%
+\section{Radiative cooling}
+In this section we construct a spectrally resolved, analytical model for $\ppz F$. The basic strategy will be to  simply parameterize $\kappa(k)$, the mass absorption coefficient ($\mathrm{m^2/kg}$) of water vapor as a function of wavenumber (or inverse wavelength) $k$, and use this parameterization in conjunction with \eqnref{tau2} to compute the optical depth $\tau_k$. This will give us the transmission function $\trans_k \equiv \exp(-\tau_k)$, which we can use to estimate the longwave flux divergence $\ppz \FLW_k$ via the cooling-to-space (CTS) approximation
 	\beqn
 		\ppz \FLW_k \approx \pi B_k \frac{d \trans_k}{dz} 
 		%\quad\quad \quad \mbox{(cooling-to-space approx)}   
@@ -161,7 +304,7 @@ In this section we construct a spectrally resolved, analytical model for radiati
 	\eeqn
 where $B_k$ is the planck density with respect to wavenumber. Spectral integration of the above will then yield the total longwave radiative cooling $\ppz \FLW$, in $\mathrm{W/m^3}$.
 
-To parametrize $\kappa(k)$ for \htwo, we begin with a plot of the minimum, maximum, median, and 25th and 75th percentile values of $\kappa$ for 10 \cminverse\ intervals, pulled from \cite{pierrehumbert2010} (hereafter \pierre). If we take the median values as representative of $\kappa(k)$ in a given 10 \cminverse\ interval, then the roughly
+To parametrize $\kappa(k)$ for \htwo, we begin with a plot of the minimum, maximum, median, and 25th and 75th percentile values of $\kappa$ for 10 \cminverse\ intervals, pulled from \cite{pierrehumbert2010} (hereafter \pierre) and reproduced in Fig. \ref{kappa_h2o}.  If we take the median values as representative of $\kappa(k)$ in a given 10 \cminverse\ interval, then the roughly
 linear behavior of its logarithm suggests that we might parameterize $\ln(\kappa(k))$  to first order as a piecewise linear functions whose slopes and intercepts match those of the median curve in Fig. \ref{kappa_h2o}. This yields
 \beqn
 	\ln \kappa(k) = \left\{ \begin{array}{lc}
@@ -171,16 +314,8 @@ linear behavior of its logarithm suggests that we might parameterize $\ln(\kappa
 					\end{array} \right.								
 \label{kappa_param}
 \eeqn
-Given $\kappa(k)$, the optical depth $\tau_k$ at height $z$ is given by 
-	\beqn
-		\tau_k = \int_z^\infty \kappa(k) \frac{p(z')}{p_0}S_k(T(z')) \rho_v\, dz'  
-		\label{tau1}
-	\eeqn
-where $\rho_v$ is the density of water vapor and $p/p_0$ and $S_k(T)$ represent the effects of pressure and temperature scaling, respectively (\pierre). The reference pressure and temperature $p_0$ and $T_0$ are set to 100 hPa and 260 K as in \pierre, and the temperature scaling  is given by 
-	\beqn
-		S_k(T) =  \exp\left[-T_k^*\left(\frac{1}{T}-\frac{1}{T_0}\right)\right]\; ,  \n
-	\eeqn
-	where $T_k^*$ may be estimated from Fig. 4.20 of \pierre\ as 
+
+We will also now need an explicit parameterization for $T_k^*$ for use in \eqnref{Tscaling}. We may estimate this from Fig. 4.20 of \pierre\ as 
 	\beqn
 		T_k^* = \left\{ \begin{array}{lc}
 							500 + 2000\frac{k-100}{1000-100} & 100 < k < 1000 \ \cminverse \\
@@ -190,65 +325,24 @@ where $\rho_v$ is the density of water vapor and $p/p_0$ and $S_k(T)$ represent 
 		\label{Tstar_param}
 		\n
 	\eeqn
-		
-
-As a first check on our approach we diagnose $\tau_k$ using Eqn. \eqnref{tau1} and output from an RCE simulation at surface temperature $\Ts=300$ K with \htwo\ as the only greenhouse gas .  We then use this to numerically compute the weight function $\ppz\trans_k$ via finite-difference, and then use \eqnref{cts} to compute the spectral flux divergence $\ppz \FLW_k$. Finally, we  compute the spectral cooling rate $\cool_k$ as 
+As a first check on our approach we numerically diagnose $\tau_k$ using the comprehensive expression  \eqnref{tau1} and output from an RCE simulation at surface temperature $\Ts=300$ K with \htwo\ as the only greenhouse gas .  We then use this to numerically compute the weight function $\ppz\trans_k$ via finite-difference, and then use \eqnref{cts} to compute the spectral flux divergence $\ppz \FLW_k$. Finally, we  compute the spectral cooling rate $\cool_k$ as 
 	\beqn
 		\cool_k  = \frac{\ppz \FLW_k}{\rho C_p} \; .   \label{cooling_eqn}
 	\eeqn
 This cooling is plotted in the left-hand panel of Figure \ref{cooling_fig}, and  may be compared to the line-by-line (LBL) calculation of \cite{huang2013}, reproduced in Figure \ref{lbl_cooling}. Apart from the absence of cooling in the  \cotwo\ band around 660 \cminverse, and the enhanced cooling in the water vapor window 800-1200 \cminverse due to continuum absorption, our approximate calculation is in decent qualitative and quantitative agreement with the LBL calculation. The main feature of both is  the diagonal band of cooling running from 
-$(k,T) \approx (200\ \mathrm{K} ,200\ \cminverse) $ to $(k,T) \approx (280\ \mathrm{K},\ 600\  \cminverse)$. As is well-known \citep[e.g.][]{goldblatt2013}, this band represents cooling (at each $k$) where  $\tau_k\approx 1$ \citep[e.g.,][]{wallace2006}, and this level descends with increasing $k$ because $\kappa$ decreases with $k$, requiring a larger water vapor path (and hence a lower altitude) to reach $\tau_k=1$. The linearity of the band in $(k,T)$ space is due to the common exponential dependence of both $\kappa(k)$ and $\tau_k(T)$, as will be evident and further discussed below.
+$(k,T) \approx (200\ \mathrm{K} ,200\ \cminverse) $ to $(k,T) \approx (280\ \mathrm{K},\ 600\  \cminverse)$. As is well-known \citep[e.g.][]{goldblatt2013}, this band represents cooling (at each $k$) where  $\tau_k\approx 1$ \citep[e.g.,][]{wallace2006}, and this level descends with increasing $k$ because $\kappa$ decreases with $k$, requiring a larger water vapor path (and hence a lower altitude) to reach $\tau_k=1$. The linearity of the band in $(k,T)$ space will be discussed further below.
 
 As a further, independent check we may numerically integrate our diagnosed $\ppz \FLW_k$ over $k$ space and compare the resulting $\ppz F$ profile to that output by the RRTM radiation scheme coupled to our RCE simulation. These profiles are shown in Figure
 \ref{ppzf} in magenta and black, respectively. Our estimate of $\ppz \FLW$ is biased low in general; we speculate that this is due (in the lower troposphere) to our omission of continuum effects, and (in the far upper troposphere) our use of the median values for $\kappa$, which ignores the highest $\kappa$ values which are generating the cooling in that region. Nevertheless, our estimate captures the overall shape and magnitude of the benchmark RRTM curve reasonably well.
 
-That the basic features of $\cool_k$  and $\ppz \FLW$ survive the approximations \eqnref{cts} and \eqnref{kappa_param} is heartening, but the expression \eqnref{tau1} for $\tau_k$ is still too complicated to be analytically tractable. We thus make several further simplifications.  First, since the integral in \eqnref{tau1} is dominated by values of the integrand close to $z$, we evaluate $p$ and $S_k(T)$ at $z$ and pull it out of the integral. This allows us to write $\tau_k$ in terms of the water vapor path $\WVP\equiv \int_z^\infty  \rho_v\, dz'$ as
-	\beqn
-		\tau_k =  \kappa(k) \frac{p}{p_0} S_k(T)\cdot \WVP \; .
-	\label{tauWVP}
-	\eeqn
-We now need to estimate the water vapor path. We first write the vapor density as 
-$\rho_v =  \RH\, p_v^*(T)/R_ vT$, where $p_v^* = p_v^\infty \exp(-L/R_vT)$ is the vapor pressure of water ($p_v^\infty = 2.5\times 10^{11} $ Pa) and all other symbols have their usual meaning. Assuming a constant  \RH,  $\rho_v$ is then a function of temperature only. This suggests that we also view \WVP\ as a function of temperature only, and we thus write it as 
-	\beqn
-		\WVP(T) =\frac{ \RH\, p_v^\infty}{R_v \gammaav}\int^T_{\Ttp} \frac{e^{-L/R_v T'}}{T'}\; dT' \; 
-	\label{WVP1}
-	\eeqn	
-where we assume a constant, average lapse rate $\gammaav$ and we take the lower limit of our integral to be the tropopause temperature \Ttp (we neglect stratospheric water vapor). 
-
-To evaluate the integral in \eqnref{WVP1}, we switch variables to $x\equiv L/R_v T$, which gives
-	\beqn
-		\int^T_{\Ttp} \frac{e^{-L/R_v T'}}{T'}\; dT' \ = \ \int_x^{x_\mathrm{tp}} \frac{e^{-x'}}{x'} dx' \ \approx\ \frac{1}{x_{\mathrm{av}}}\int_x^{x_\mathrm{tp}} e^{-x'} dx' \ \approx\ \frac{e^{-x}}{x_{\mathrm{av}}}.
-		\label{int_approx}
-	\eeqn
-To make the first approximation above we note that $x$ varies between -18 and -27 as $T$ varies between, say, $\Ts=300$ K and $\Ttp \approx 200$ K, and so the exponential is varying much more than the factor of $1/x'$. We thus set the latter  to $x_{\mathrm{av}}\equiv L/R_v \Tav$ where $\Tav \equiv (\Ts + \Ttp)/2$, and pull it outside the integral. The last approximation follows from neglecting the boundary term $e^{-x_\mathrm{tp}}$. Plugging \eqnref{int_approx} into \eqnref{WVP1} yields
-	\beqn
-		\WVP(T) =\WVP_0\exp\left(-\frac{L}{R_vT}\right),\quad \mbox{where}\quad  \WVP_0 \equiv \frac{\RH\, p_v^\infty\, \Tav}{L\,\gammaav} \; .
-	\label{WVP2}
-	\eeqn
-(The quantity $\WVP_0$ should be interpreted as a characteristic, though not necessarily realistic, value of \WVP, analogous to $p_v^\infty$ for $p_v^*$.)  As a  check, Figure \ref{wvp_check} plots \WVP\ diagnosed from our RCE simulation and estimated via \eqnref{WVP2}, with \RH\ set to 70\% for the latter by eyeball fit. The constant \RH\ assumption underestimates boundary layer \WVP, and neglect of the ice phase (and concomitant lower saturation vapor pressure) leads to a slight overestimate of WVP at upper levels, but otherwise the fit is decent.
-
-We can now plug in our  expression for \WVP\ into \eqnref{tauWVP}. However, since \WVP\ is naturally a function of temperature, we should express $\tau_k$ as a function of temperature as well. This means writing $p$ as 
-	\beqn
-		p=\ps(T/\Ts)^{g/R_d\gammaav} \; ,
-	\n
-	\eeqn 
-	which is the expression for $p(T)$ for an atmosphere with constant lapse rate $\gammaav$. Putting all this together yields an  analytical expression for $\tau_k$ in terms of elementary functions,
-	\beqn
-		\tau_k(T) = \kappa(k)\, S_k(T)\, \frac{\ps}{p_0}\left(\frac{T}{\Ts}\right)^{\frac{g}{R_d\Gamma}}\cdot \WVP_0\exp\left(-\frac{L}{R_v T}\right) \quad .
-	\label{tau2}
-	\eeqn
-Though this expression is approximate, it contains no unobservable, tunable parameters. Let us check our approximations by comparing profiles of $\tau_k$ for various $k$ as computed from \eqnref{tau1} and \eqnref{tau2}; these are shown in solid and dashed lines respectively in Figure \ref{tauk}.
-Though the biases in \WVP\ from Figure \ref{wvp_check} are certainly evident, the match between our analytical expression \eqnref{tau2} and the numerical calculation using \eqnref{tau1} is decent.
-
-
-An analytical expression for the weight function  immediately follows from \eqnref{tau2} as 
+To produce an analytical theory we now employ the analytical expression \eqnref{tau2} for \tauk. An analytical expression for the weight function  immediately follows from \eqnref{tau2} as 
 	\beqn
 		\ppz \trans_k = \left[\frac{g}{R_d T} + \frac{ \gammaav}{ T^2}\left(\frac{L}{R_v} + T_k^*\right) \right] \tau_k e^{-\tau_k}  \ .
 	\label{weight}
 	\eeqn
- The factor  in brackets is just $d \ln \tau_k/dz$,  an inverse scale height for $\tau_k$. Combining \eqnref{weight}  with the CTS approximation \eqnref{cts}  yields the cooling rate shown in the right panel of Figure \ref{cooling}, as well as the green profile in Fig. \ref{ppzf}.  Though many approximations have been made, we do not find  a major quantitative degradation relative to the cooling derived from \eqnref{tau1}, and the qualitative agreement with both the LBL (Fig. \ref{lbl_cooling}) and RRTM benchmarks is still good.
+ The factor  in brackets is just $d \ln \tau_k/dz$,  an inverse scale height for $\tau_k$. Combining \eqnref{weight}  with the CTS approximation \eqnref{cts}  yields the cooling rate shown in the right panel of Figure \ref{cooling_fig}, as well as the green profile in Fig. \ref{ppzf}.  The agreement with the cooling derived from \eqnref{tau1} is good, and the reasonable agreement with both the LBL (Fig. \ref{lbl_cooling}) and RRTM benchmarks is retained.
 
-Now that we have some confidence that our approximations have retained the essential, spectrally-resolved physics,  we may derive an analytic expression for the total longwave cooling. This will require an analytic integration over $k$ space. We begin by noting that the $k$-dependence of $\ppz \trans_k$ is almost entirely through the function $\tau_k e^{-\tau_k}$ (the $k$-dependence of the scale height is weak, $\pm 10 \%$ of the mean over our $k$-range).  The function $\tau_k e^{-\tau_k}$(as a function of $\tau_k$) has an integral of 1 across $(0,\infty)$, with a peak at $\tau_k=1$, so we may approximate it as a Dirac delta function peaked at $\tau_k=1$. We can then switch variables to $k$, where $T$ is held fixed and the peak of $\tau_k e^{-\tau_k}$ is located where	$\tau_{k}(T)=1$. We denote this wavenumber as $k_1(T)$, which by  \eqnref{tau2} is given by 
+Now that we have some confidence that our approximations have retained the essential, spectrally-resolved physics,  we may derive an analytic expression for the total longwave cooling. This will require an analytic integration over $k$ space. We begin by noting that the $k$-dependence of $\ppz \trans_k$ is almost entirely through the function $\tau_k e^{-\tau_k}$ (the $k$-dependence of the scale height is weak, $\pm 10 \%$ of the mean over our $k$-range).  This function has an integral of 1 across $\tauk\in (0,\infty)$, with a peak at $\tau_k=1$, so we may approximate it as a Dirac delta function peaked at $\tau_k=1$. We can then switch variables to $k$, where $T$ is held fixed and the peak of $\tau_k e^{-\tau_k}$ is located where	$\tau_{k}(T)=1$. We denote this wavenumber as $k_1(T)$, which by  \eqnref{tau2} is given by 
 	\beqn
 		k_1(T) =  l_k\left\{\ \ln[ \WVP_0\kappa(0)] + \ln(\ps/p_0) + \frac{g}{R_d\,\Gamma}\ln(T/\Ts) - 
 				\frac{L}{R_vT} - T_k^*(0)\left(\frac{1}{T}-\frac{1}{T_0}\right)\  \right\} \; ,
@@ -288,57 +382,83 @@ This expression is plotted in blue in Fig. \ref{ppzf}. The agreement with previo
 As mentioned above, the logarithmic derivative $\ppz (\ln \tau_{k_1})$ factor is just the bracketed expression in \eqnref{ppzf_eqn}, representing an  inverse scale height for optical depth. The various terms in this expression (left to right in \eqnref{ppzf_eqn}) represent the influence of pressure broadening,  Clausius-Clapeyron (C-C) scaling, and temperature scaling, respectively. The factor $\tau_{k_1}e^{-\tau_{k_1}} \Delta k = \Delta k/e$ in Eqn. \eqnref{ppzf_eqn_heur} is just $l_k$, and a typical value of $l_k = 65$ \cminverse\ gives $\Delta k \approx 200\ \cminverse$, in good eyeball agreement with Fig. \ref{cooling_fig}.
 
 	\subsection{Monotonicity of $\ppz F$}
-Next let us ask why $\ppz F$ increases with $T$. From \eqnref{ppzf_eqn} we see that the inverse scale height  \emph{decreases}  as $T$ increases.  Furthermore, this effect is not necessarily reversed by the explicit $T$-dependence of $B_{k_1}(T)$. This can be seen in Figure \ref{ppzf_phase}, where we plot \eqnref{ppzf_eqn} but for arbitrary $k$ as well as $T$. The black dashed line is  $k_1(T)$ from \eqnref{k1}. One can see that $\ppz F$ increases with $T$ along  $k_1(T)$, but that if $k_1(T)$ were flatter (e.g. $k_{\mathrm{alt}}(T)$ in Fig. \eqnref{ppzf_phase}), then $\ppz F$ would no longer be monotonic in $T$ because the planck function is not monotonic in $k$. Such a conclusion should not change when continuum effects are included. Thus the monotonic increase of $\ppz F$ with $T$ is not an inalterable feature of radiative transfer, but rather an accident of water vapor spectroscopy.
+Next let us ask why $\ppz F$ increases with $T$. From \eqnref{ppzf_eqn} we see that the inverse scale height  \emph{decreases}  as $T$ increases.  Furthermore, this effect is not necessarily reversed by the explicit $T$-dependence of $B_{k_1}(T)$. This can be seen in Figure \ref{ppzf_phase}, where we plot \eqnref{ppzf_eqn} but for arbitrary $k$ as well as $T$. The black dashed line is  $k_1(T)$ from \eqnref{k1}. One can see that $\ppz F$ increases with $T$ along  $k_1(T)$, but that if $k_1(T)$ were flatter (e.g. $k_{\mathrm{alt}}(T)$ in Fig. \ref{ppzf_phase}), then $\ppz F$ would no longer be monotonic in $T$ because the planck function is not monotonic in $k$. Such a conclusion should not change when continuum effects are included. Thus the monotonic increase of $\ppz F$ with $T$ is not an inalterable feature of radiative transfer, but rather an accident of water vapor spectroscopy.
 
 	\subsection{Linearity of $k_1(T)$}
-The linearity of  $k_1(T)$ in Fig. \ref{ppzf_phase} is striking, and also manifests in the linear cooling bands in Fig. \eqnref{cooling_fig}. What sets the slope $d k_1/dT$? And does its apparent constancy express some essential simplicity of the underlying physics, or is it just coincidence? A glance at our expression \eqnref{k1} for $k_1(T)$, which is a complicated combination of non-linear functions of $T$, suggests that its apparent  linearity is indeed coincidental. In fact,  dropping the $T_k^*(0)$ term as $T_k^*(0)$ is only 5\% of $L/R_v$, the derivative $d k_1/dT$ can be written
+The linearity of  $k_1(T)$ in Fig. \ref{ppzf_phase} is striking, and also manifests in the linear cooling bands in Fig. \eqnref{cooling_fig}. What sets the slope $d k_1/dT$? And does its apparent constancy express some essential simplicity of the underlying physics, or is it just coincidence? A glance at our expression \eqnref{k1} for $k_1(T)$, which is a complicated combination of non-linear functions of $T$, suggests that its apparent  linearity is indeed coincidental. In fact,  dropping the $T_k^*(0)$ term ($T_k^*(0)$ is only 5\% of $L/R_v$), the derivative $d k_1/dT$ can be written
 	\beqn
 		\der{k_1}{T} = \frac{Ll_k}{R_v T^2}\left( 1 + \frac{gR_vT}{R_d \gammaav L} + \left|\der{T_k^*}{k}\right| \frac{k_1}{T} \right) \; .
 	\label{dk1dt}
 	\eeqn
 Thus the order of magnitude of $\der{k_1}{T}$ is set by $Ll_k/R_vT^2 \approx 5\ \cminverse\ \Kinverse $, and its rough constancy ($\pm 10\%$ over the troposphere) is due to opposing tendencies between $Ll_k/R_vT^2$ (which decreases with increasing $T$) and the terms in parentheses in \eqnref{dk1dt} (which increase with increasing $T$).
 
-%===========%
-% T-invariance  %
-%===========%
-\section{Temperature invariance of  $\ppz \FLW$} 
-Our derivation of Eqn. \eqnref{ppzf_eqn} made heavy use of temperature coordinates, essentially because \rhov\ is most naturally a function of temperature, and it is the water vapor distribution which controls radiative cooling. Though some quantities in Eqn. \eqnref{ppzf_eqn} do have a pressure and/or surface temperature dependence, such as $k_1$ and $\gammaav$, the form of Eqn. \eqnref{ppzf_eqn} suggests that $\ppz F$ may, to a good approximation, be a function of $T$ alone. We check this in Fig. \ref{ppzf_tinv_theory}, where we plot profiles of $\ppz F$ derived from \eqnref{ppzf_eqn} for $\Ts=(280,290,300,310)$ K. with $T=T_s-\Gamma z$ for the left-most panel and $p=\ps(T/\Ts)^{(g/R_d\Gamma)}$ for the center panel. One can see that in temperature coordinates, the profiles of $\ppz F$ for various \Ts\ collapse almost perfectly onto a single curve. The same behavior is exhibited by the benchmark $\ppz F$ profiles generated via RRTM from four CRM simulations of RCE with the same set of \Ts, as shown in Figure \ref{ppzf_tinv_dam}. \comment{These have \cotwo\ though, and must be re-run without for production runs.}
 
-The simple behavior of $\ppz F$ in temperature coordinates allows for a simple explanation of the result that column-integrated radiative cooling (and hence precipitation) changes at a rate of roughly 1-3\% \Kinverse\ with warming \citep{ogorman2012}. This result is known to be a result of radiative water-vapor feedbacks \citep{pendergrass2014}, but a back-of-the-envelope estimate has been lacking. To obtain this, we first note that the temperature invariance of radiative cooling still holds when extended to net (shortwave plus longwave cooling), as evident in Fig. \ref{ppzf_net}, which  shows free-tropospheric (i.e. above the lifting condensation level $\zlcl  \approx 500\ \mathrm{m}$) profiles of shortwave flux divergence  as well as net flux divergence $\ppz \Fnet$, as diagnosed by RRTM for our variable-SST RCE simulations. We can then write the net, column-integrated free-tropospheric radiative cooling $Q$ as 
-	\beqn
-		Q = \int_{\zlcl}^{\ztp} \partial_{z'} \Fnet dz'  = \int_{\Ttp}^{\Tlcl} \frac{\partial_{z'} \Fnet}{\Gamma} dT' \n
-	\eeqn
-where we no longer assume a vertically constant lapse rate $\Gamma$.  The fractional change in $Q$ with surface temperature evaluated  is then just
-	\beqn
-		\der{\ln Q}{\Ts}	\approx \der{\ln Q}{\Tlcl} = \frac{1}{Q} \left. \frac{\ppz \Fnet}{\Gamma}\right |_{\mathrm{LCL}}.   \n
-	\eeqn
-Evaluating this at $\Ts=300$ K with typical values $Q=100 \ \mathrm{W/m^2}$, $\ppz \Fnet(\Tlcl)=0.01 \ \mathrm{W/m^3}$, and $\Gamma(\Tlcl) = .005\ \mathrm{K/m}$ yields 2 \% \Kinverse, in excellent agreement with range of observed values reported in the literature. \comment{need to think about change in lapse rate too!}
-
-
-%==================%
-% runaway greenhouse  %
-%=================%
-\section{The local runaway greenhouse} 
-There is a close connection between our CTS approximation for  $\ppz F$ in Eqn. \eqnref{ppzf_eqn} and outgoing longwave radiation (OLR), as the latter may be written without approximation as a surface term plus a cooling-to-space term:
-	\begin{align}
-		\OLR   & = \int \pi B_k(0)\exp(-\tau_k(0))\, dk \quad + \quad \int dk \int_0^\infty \pi B_k(\partial_{z} \trans_k ) \, dz \;    \n  \\
-			   &  = \int \pi  B_k(\Ts)\exp(-\tau_k(\Ts))\, dk \quad + 
-			   		\quad \int_{\Ttp}^{\Ts} \pi B_{k_1(T)}\left(\frac{L }{R_vT^{2}}+\frac{g}{R_d T} \right)\, \frac{l_k}{\Gamma}\, dT  	
-				   \label{olr}
-	\end{align}
-where we switched from $z$ to $T$ coordinates in the second line. The local runaway greenhouse \citep{pierrehumbert1995} occurs when $\Ts$ is large enough that  much of the thermal infrared has $\tau_k(\Ts) \gg 1$ (e.g. Figs. \ref{cooling} and  \ref{lbl_cooling}) and so the surface contribution is small, and $\ppz F$ is a function of $T$ only, and thus both terms in \eqnref{olr} (and hence the \OLR\ itself) are insensitive to changes in \Ts. To what degree is such a local runaway evident in our RCE simulations?
-
-The left panel of Figure \ref{fluxes} plots profiles of upwelling longwave $U$ generated by RRTM for our various-SST runs. An increase in \OLR\ is evident throughout this SST range, and for $\Ts< 300 $ K this is clearly due in large part to increasing surface emission. For $\Ts =300$ and 310 K, however,  $U(300\ \mathrm{K})$ is virtually identical, so it is not the surface term that is producing the additional \OLR in the $\Ts > 300 $ K regime. (Note that this is roughly consistent with the results of \cite{goldblatt2013}, who find that surface emission becomes irrelevant for $\Ts >310$ K.)   Thus, it must be the 2nd term in \eqnref{olr} producing the additional OLR . But, we don't expect the $\Ts$ in the upper limit of the integral to contribute as emission from layers warmer than $300$ K or so do not seem to contribute to $U$ at lower temperatures, and Fig. \ref{ppzf_tinv_theory}
-shows that the integrand itself is a fixed function of temperature, at least so far as the lapse rate $\Gamma$ is held fixed. This suggests that the increase in \OLR\ is due to changes in $\Gamma$, which decreases by roughly 1 K/km throughout the troposphere between the $\Ts = 300$ and 310 K runs (Fig. \ref{lapse_rates}).
-
-To test the hypothesis that changes in $\Gamma$ are responsible for the increase in $F(T)$ and hence OLR between these runs, we construct two profiles of $F$ for  $\Ts=300$ K using Eqns. \eqnref{flux}, \eqnref{tau2}, and \eqnref{ppzf_eqn}, where the only difference in the two profiles are the values of $\Gamma$ used in the integral in \eqnref{flux} (we take these to be $\Gamma =5,\ 6$ K/km). The various
-
-
+\section{Summary and discussion}
 	
 %========%
 % Figures    %
 %========%
 \pagebreak
+
+%Figure wvp_check
+\begin{figure}[h]
+	\begin{center}
+			\includegraphics[scale=0.8]{../figures/wvp_check.pdf}
+		\caption{Comparison of \WVP\ as diagnosed from DAM (solid) to that estimated by \eqnref{WVP2} (dashed), in both linear and log coordinates.
+		\label{wvp_check}
+		}
+	\end{center}
+\end{figure}
+
+%Figure tauk
+\begin{figure}[h]
+	\begin{center}
+			\includegraphics[scale=0.8]{../figures/tauk.pdf}
+		\caption{Profiles of $\tau_k(T)$ for $k=$ 100, 500, and 900 \cminverse\ as diagnosed from \eqnref{tau1} (solid) and \eqnref{tau2} (dashed), respectively.
+		\label{tauk}
+		}
+	\end{center}
+\end{figure}
+
+%Figure tauk_varsst
+\begin{figure}[h]
+	\begin{center}
+			\includegraphics[scale=0.8]{../figures/tauk_varsst.pdf}
+		\caption{Profiles of $\tau_k(T)$ for $k=$ 100, 500, and 900 \cminverse\ and for \Ts=(280,\ 290,\ 300,\ 310) K (cold to warm colors).
+		\label{tauk_varsst}
+		}
+	\end{center}
+\end{figure}
+
+%Figure UD_tinv
+\begin{figure}[h]
+	\begin{center}
+			\includegraphics[scale=0.6]{../figures/UD_tinv.pdf}
+		\caption{Upwelling and downwelling LW fluxes $U$ and $D$  as diagnosed from CRM RCE simulations at \Ts=(280,\ 290,\ 300,\ 310) K. These fluxes are plotted in height, pressure, and temperature coordinates.
+		\label{UD_tinv}
+		}
+	\end{center}
+\end{figure}
+
+%Figure ppzf_tinv_dam
+\begin{figure}[h]
+	\begin{center}
+			\includegraphics[scale=0.6]{../figures/ppzf_tinv_dam.pdf}
+		\caption{As in Fig. \ref{UD_tinv}, but for $\ppz F$.
+		\label{ppzf_tinv_dam}
+		}
+	\end{center}
+\end{figure}
+
+%Figure f_pptf
+\begin{figure}[h]
+	\begin{center}
+			\includegraphics[scale=0.6]{../figures/f_pptf.pdf}
+		\caption{Left: Profiles of RRTM-generated longwave flux $F$ for our various-SST simulations. Right: Profiles of $\ppt F$.
+		\label{f_pptf}
+		}
+	\end{center}
+\end{figure}
 
  %Figure kappa_h2o
 \begin{figure}[h]
@@ -380,87 +500,26 @@ To test the hypothesis that changes in $\Gamma$ are responsible for the increase
 	\end{center}
 \end{figure}
 
-
-%Figure wvp_check
-\begin{figure}[h]
-	\begin{center}
-			\includegraphics[scale=0.8]{../figures/wvp_check.pdf}
-		\caption{Comparison of \WVP\ as diagnosed from DAM (solid) to that estimated by \eqnref{WVP2} (dashed), in both linear and log coordinates.
-		\label{wvp_check}
-		}
-	\end{center}
-\end{figure}
-
-%Figure tauk
-\begin{figure}[h]
-	\begin{center}
-			\includegraphics[scale=0.8]{../figures/tauk.pdf}
-		\caption{Profiles of $\tau_k(T)$ for $k=$ 100, 500, and 900 \cminverse\ as diagnosed from \eqnref{tau1} (solid) and \eqnref{tau2} dashed, respectively.
-		\label{tauk}
-		}
-	\end{center}
-\end{figure}
-
 %Figure ppzf_phase
 \begin{figure}[h]
 	\begin{center}
 			\includegraphics[scale=0.8]{../figures/ppzf_phase.pdf}
-		\caption{Heat map of  $\ppz F$ evaluated via \eqnref{ppzf_eqn} but for arbitrary $k$ and $T$, with $k_1(T)$ plotted in black dashes. A fictitious alternative $k_{\mathrm{alt}}(T)$ to $k_1(T)$ is plotted in gray dashes, which would yield a non-monotonic profile of $\ppz F$, showing that the monotonicity of the latter on Earth is an accident of water-vapor spectroscopy.
+		\caption{Heat map of  $\ppz F$ evaluated via \eqnref{ppzf_eqn} but for arbitrary $k$ and $T$, along with $k_1(T)$ (solid black line). A fictitious alternative $k_{\mathrm{alt}}(T)$ (black dashes) to $k_1(T)$  would yield a non-monotonic profile of $\ppz F$, showing that the monotonicity of the latter on Earth is an accident of water-vapor spectroscopy.
 		\label{ppzf_phase}
 		}
 	\end{center}
 \end{figure}
 
 
-%Figure ppzf_tinv_theory
-\begin{figure}[h]
-	\begin{center}
-			%\includegraphics[scale=0.6]{../plots/ppzf_tinv_theory.pdf}
-		\caption{Profiles of  $\ppz F$ generated from \eqnref{ppzf_eqn}  for \Ts=280,290,300, and 310 K, plotted in height, pressure, and temperature coordinates.
-		\label{ppzf_tinv_theory}
-		}
-	\end{center}
-\end{figure}
-
-%Figure ppzf_tinv_dam
-\begin{figure}[h]
-	\begin{center}
-			%\includegraphics[scale=0.6]{../plots/ppzf_tinv_dam.pdf}
-		\caption{As in Fig. \ref{ppzf_tinv_theory}, but for simulated $\ppz F$.
-		\label{ppzf_tinv_dam}
-		}
-	\end{center}
-\end{figure}
-
-%Figure ppzf_net
-\begin{figure}[h]
-	\begin{center}
-			%\includegraphics[scale=0.8]{../plots/ppzf_net.pdf}
-		\caption{Profiles of longwave (dashed,positive), shortwave(dashed,negative), and net (solid) flux divergences for our RCE simulation. The temperature invariance of $\ppz F$ holds for the net flux divergence as well.
-		\label{ppzf_net}
-		}
-	\end{center}
-\end{figure}
-
-%Figure fluxes
-\begin{figure}[h]
-	\begin{center}
-			%\includegraphics[scale=0.6]{../plots/fluxes.pdf}
-		\caption{Left: Profiles of RRTM-generated longwave flux $F$ for our various-SST simulations. Center: Profile of lapse rate $\Gamma$ diagnosed directly from CRM output. Right?
-		\label{fluxes}
-		}
-	\end{center}
-\end{figure}
-
-%Figure lapse_rates
-\begin{figure}[h]
-	\begin{center}
-			%\includegraphics[scale=0.6]{../plots/lapse_rates.pdf}
-		\caption{Plots of lapse rate $\Gamma \equiv - dT/dz$ as diagnosed directly from CRM output for our various-SST RCE simulations.
-		\label{lapse_rates}
-		}
-	\end{center}
-\end{figure}
+%%Figure lapse_rates
+%\begin{figure}[h]
+%	\begin{center}
+%			%\includegraphics[scale=0.6]{../plots/lapse_rates.pdf}
+%		\caption{Plots of lapse rate $\Gamma \equiv - dT/dz$ as diagnosed directly from CRM output for our various-SST RCE simulations.
+%		\label{lapse_rates}
+%		}
+%	\end{center}
+%\end{figure}
 
 
 

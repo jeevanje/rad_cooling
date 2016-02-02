@@ -39,7 +39,7 @@ k1 = l_k*( log(kappa_h20(0)/kappa0) + log(ps/p0) - g/Rd/gamma*log(Ts/tabs) - L/R
 k1[k1 < 0 ] <- 1e-4
 ppzf = array(dim=c(nk,nz))
 for (i in 1:nk){
-		ppzf[i,] = pi*planck_k(tabs,1e2*kvals[i])*(g/Rd/tabs + gamma/tabs^2*(L/Rv + Tstar_h20(1e-2*k1)))*lk   # W/m^3
+		ppzf[i,] = pi*planck_k(tabs,1e2*kvals[i])*(g/Rd/tabs + gamma/tabs^2*(L/Rv + Tstar_h20(1e-2*k1)))*l_k   # W/m^3
 		}
 	
 # Begin plot #
@@ -54,8 +54,8 @@ my.image.plot(kvals,tabs[kmin:1], ppzf[ ,kmin:1],zlim=range(ppzf[ ,kmin:1]),
 	  cex.axis = cex,
 	  cex.main = 1.5,
 	  cex.legend = cex)
-points(1e-2*k1[zvec],tabs[zvec],type="l",lwd=3,col="black",lty="dashed")
+points(1e-2*k1[zvec],tabs[zvec],type="l",lwd=3,col="black",lty="solid")
 text(300,260,expression(k[1]*"("*T*")"),cex=1.25)
-text(540,243,expression(k[alt]*"("*T*")"),cex=1,col="gray")
-abline(a=211.5,b=0.075,lty="dotted",lwd=2,col="gray") 
+text(540,243,expression(k[alt]*"("*T*")"),cex=1,col="black")
+abline(a=211.5,b=0.075,lty="dashed",lwd=2,col="black") 
 dev.off()

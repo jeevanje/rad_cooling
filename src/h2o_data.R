@@ -3,9 +3,10 @@
 #Parameters #
 #===========#
 
+gamma_const = .0065
 RH =0.7
 Tav   = 250
-kappa0 = L*gamma/RH/einf/Tav
+kappa0 = L*gamma_const/RH/einf/Tav
 p0 = 1e4  # Pa
 T0 = 260  # K, ref. temp for abs. coeffs
 b_kappa = 6500^-1 # (d ln kappa/dk), 1/m^-1
