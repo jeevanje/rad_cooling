@@ -1,3 +1,5 @@
+source("~/Dropbox/Rtools/thermo_tools.R")
+
 
 #===========#
 #Parameters #

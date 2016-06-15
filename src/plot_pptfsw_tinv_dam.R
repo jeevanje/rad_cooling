@@ -9,8 +9,6 @@ source("~/Dropbox/rad_cooling/src/h2o_data.R")
 SSTlist = c(280,290,300,310)
 N       = length(SSTlist)
 datadir = "~/Dropbox/rad_cooling/data"
-colvec = tim.colors(length(SSTlist))
-tabslim = c(310,170)
 
 #===========#
 # Get data  #
@@ -18,21 +16,27 @@ tabslim = c(310,170)
 
 for (i in 1:N){
 	SST  = SSTlist[i]
-	ncpath = paste(datadir,"/zeroO3_",SST,"K/data/verticalstats.nc",sep="")
+	ncpath = paste(datadir,"/prod_data_4_22_16/",SST,"k/data/verticalstats.nc",sep="")
 	nc = open.ncdf(ncpath)
 	z    = get.var.ncdf(nc,"z")
 	nz   = length(z)
-	zmax = 22e3  # Find principled way to set this!
-	kmax = which.min(abs(zmax-z))
-	zvec = 3:kmax
 	time = get.var.ncdf(nc,"time")
 	nt = length(time)
-	tabs = apply(get.var.ncdf(nc,start=c(1,nt-10),"tabs"),1,mean)	
-	p = apply(get.var.ncdf(nc,start=c(1,nt-10),"p"),1,mean)	
-	swup = apply(get.var.ncdf(nc,start=c(1,nt-10),"swup"),1,mean)	
-	swdown = apply(get.var.ncdf(nc,start=c(1,nt-10),"swdown"),1,mean)	
+	nt_avg = 20
+	start = c(1,nt-nt_avg)
+	tabs = apply(get.var.ncdf(nc,start=start,"tabs"),1,mean)	
+	p = apply(get.var.ncdf(nc,start=start,"p"),1,mean)	
+	cloud = apply(get.var.ncdf(nc,start=start,"cloud"),1,mean)	
+	klcl = which.max(cloud[1:15])
+	zmax = 22.5e3
+	kmax = which.min(abs(zmax-z))
+	zvec = klcl:kmax
+	swup = apply(get.var.ncdf(nc,start=start,"swup"),1,mean)	
+	swdown = apply(get.var.ncdf(nc,start=start,"swdown"),1,mean)	
 	lapse  = -partialder_i2s(3,z,s2i(3,z,tabs))
 	ppzf =  partialder_i2s(3,z,swup-swdown)  # W/m^3
+	assign(paste("klcl",SST,sep=""),klcl)
+	assign(paste("zvec",SST,sep=""),zvec)
 	assign(paste("tabs",SST,sep=""),tabs)
 	assign(paste("lapse",SST,sep=""),lapse)
 	assign(paste("p",SST,sep=""),p)
@@ -41,27 +45,34 @@ for (i in 1:N){
 
 
 
-pdf(file="~/Dropbox/rad_cooling/git/figures/pptfsw_tinv_dam.pdf",width=12,height=5)
-par(mfrow=c(1,3),mar=c(5,6,5,3))
+colvec = tim.colors(length(SSTlist))
 cex=2
-xlim=c(-2,0)
+xlim=c(0,5)
+tabslim = c(max(SSTlist),170)
 lty="solid"
-z=z[zvec]
+xlim=c(-2,0)
 main = "SW flux divergence"
 xlab = expression(-partialdiff[T]*F[SW]~~"("~W/m^2/K~")") 
+
+pdf(file="~/Dropbox/rad_cooling/git/figures/pptfsw_tinv_dam.pdf",width=12,height=5)
+par(mfrow=c(1,3),mar=c(5,6,5,3))
+
 #===========#
 # height    #
 #===========#
 
 for (i in 1:N){
 	Ts  = SSTlist[i]
+	col = colvec[i]
+	zvec =  eval(as.name(paste("zvec",Ts,sep="")))
 	pptf =  eval(as.name(paste("pptf",Ts,sep="")))[zvec]
 	if (i == 1){
-		plot(pptf,1e-3*z,
+		plot(pptf,1e-3*z[zvec],
 			xlab=xlab,
 			ylab = "z (km)",
 			main=main,
 			xlim=xlim,
+			ylim = c(0,1e-3*zmax),
 		 	col=colvec[i],lty=lty,
 		 	cex.axis=cex,
 		 	cex.main=cex,
@@ -70,8 +81,9 @@ for (i in 1:N){
 		 	lwd=2
 			 )
 		} else {
-		points(pptf,1e-3*z,type="l",lwd=2, col = colvec[i],lty=lty)
+		points(pptf,1e-3*z[zvec],type="l",lwd=2, col = col,lty=lty)
 		}
+	legend("topleft",legend=SSTlist,lwd=2,cex=1.5,col=colvec,title="SST (K)")
 	}
 
 
@@ -81,6 +93,8 @@ for (i in 1:N){
 
 for (i in 1:N){
 	Ts  = SSTlist[i]
+	col = colvec[i]
+	zvec =  eval(as.name(paste("zvec",Ts,sep="")))
 	pptf =  eval(as.name(paste("pptf",Ts,sep="")))[zvec]
 	p =  eval(as.name(paste("p",Ts,sep="")))[zvec]
 	if (i == 1){
@@ -89,7 +103,7 @@ for (i in 1:N){
 			ylab = "Pressure (hPa)",
 			main=main,
 			xlim=xlim,
-			ylim=rev(range(1e-2*p)),
+			ylim=c(1000,0),
 		 	col=colvec[i],lty=lty,
 		 	cex.axis=cex,
 		 	cex.main=cex,
@@ -108,14 +122,17 @@ for (i in 1:N){
 
 for (i in 1:N){
 	Ts  = SSTlist[i]
+	col = colvec[i]
+	zvec =  eval(as.name(paste("zvec",Ts,sep="")))
 	pptf =  eval(as.name(paste("pptf",Ts,sep="")))[zvec]
 	tabs =  eval(as.name(paste("tabs",Ts,sep="")))[zvec]
 	if (i == 1){
-		plot(pptf,tabs,xlab=xlab,
+		plot(pptf,tabs,
+			xlab=xlab,
 			main=main,
 			 ylim = tabslim, xlim=xlim,
 			 ylab = "Temperature (K)",
-			 col=colvec[i],type="l", lty=lty,
+			 col=colvec[i],type="l", lty=lty,lwd=2,
 			 cex.main=cex,
 			 cex.axis=cex,
 			 cex.lab=cex
@@ -123,6 +140,7 @@ for (i in 1:N){
 		} else {
 		points(pptf,tabs,type="l",lwd=2, col = colvec[i],lty=lty)
 		}
+	abline(v=0,col="gray",lty = "dashed",lwd=1.5)
 	}
 			
 dev.off()

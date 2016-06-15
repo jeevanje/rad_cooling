@@ -19,9 +19,11 @@ Tstar_vals = c(Tstar_h20(kvals1),Tstar_h20(kvals2))
 SSTlist = c(280,290,300,310)
 N       = length(SSTlist)
 datadir = "~/Dropbox/rad_cooling/data"
+navg = 20 # days to average
 for (i in 1:N){
         Ts  = SSTlist[i]
-        ncpath = paste(datadir,"/zeroO3_",Ts,"K/data/verticalstats.nc",sep="")
+        ncpath = paste(datadir,"/prod_data_4_22_16/",Ts,"k/data/verticalstats.nc",sep="")
+#        ncpath = paste("~/Dropbox/fat/data/zeroO3_rce_11-14-15/zeroO3_",Ts,"K/data/verticalstats.nc",sep="")
         nc = open.ncdf(ncpath)
         z    = get.var.ncdf(nc,"z")
 		zint   = zinterp(z)
@@ -29,11 +31,11 @@ for (i in 1:N){
 		dzvec  = c(diff(zint),zint[nz]-zint[nz-1])
         time = get.var.ncdf(nc,"time")
         nt = length(time)
-        tabs = apply(get.var.ncdf(nc,start=c(1,nt-10),"tabs"),1,mean)   
+        tabs = apply(get.var.ncdf(nc,start=c(1,nt-navg),"tabs"),1,mean)   
         kmin=which.min(tabs)
-        p = apply(get.var.ncdf(nc,start=c(1,nt-10),"p"),1,mean)   
-        rho = apply(get.var.ncdf(nc,start=c(1,nt-10),"rho"),1,mean)   
-        qv = apply(get.var.ncdf(nc,start=c(1,nt-10),"qv"),1,mean)   
+        p = apply(get.var.ncdf(nc,start=c(1,nt-navg),"p"),1,mean)   
+        rho = apply(get.var.ncdf(nc,start=c(1,nt-navg),"rho"),1,mean)   
+        qv = apply(get.var.ncdf(nc,start=c(1,nt-navg),"qv"),1,mean)   
 		rhov   = qv*rho 
         ktp = which.min(abs(tabs-200))
         Ttp=tabs[ktp]
@@ -49,26 +51,30 @@ for (i in 1:N){
 		tau[,nz+1] <- 0
 		for (k in nz:1){
 				tau[ ,k] = tau[,k+1] + dzvec[k]*dtaudz[ ,k]
-		} 
+			} 
         assign(paste("tabs",Ts,sep=""),tabs)  
         assign(paste("gamma",Ts,sep=""),gamma)  
         assign(paste("tau",Ts,sep=""),tau)  
         assign(paste("tau1",Ts,sep=""),tau1)  
         assign(paste("zvec",Ts,sep=""),zvec)  
-                }
+        }
 
 # taucheck data
-ncpath = "~/Dropbox/rad_cooling/data/H2O_only_300K/verticalstats_slice.nc"
+ncpath = "~/Dropbox/rad_cooling/data/prod_data_4_22_16/300k/data/verticalstats.nc"
+#ncpath = "~/Dropbox/fat/data/zeroO3_rce_11-14-15/zeroO3_300K/data/verticalstats.nc"
+#ncpath = "~/Dropbox/fat/data/h2o_only_verticalstats.nc"
 nc	   = open.ncdf(ncpath)
 z      = get.var.ncdf(nc,"z")
 zint   = zinterp(z)
 nz	   = length(z)
 dzvec  = c(diff(zint),zint[nz]-zint[nz-1])
+time = get.var.ncdf(nc,"time")
 nt	   = length(time)
-tabs   = get.var.ncdf(nc,"tabs")
-rho    = get.var.ncdf(nc,"rho")
-qv     = get.var.ncdf(nc,"qv")
-p	   = get.var.ncdf(nc,"p")
+start=c(1,nt-navg)
+tabs = apply(get.var.ncdf(nc,start=start,"tabs"),1,mean)   
+p = apply(get.var.ncdf(nc,start=start,"p"),1,mean)   
+rho = apply(get.var.ncdf(nc,start=start,"rho"),1,mean)   
+qv = apply(get.var.ncdf(nc,start=start,"qv"),1,mean)   
 kmin   = which.min(tabs)
 zvec   = 1:kmin
 rhov   = qv*rho 
@@ -93,11 +99,10 @@ for (k in nz:1){
 tau1 = ((kappa_vals)%o%(ps/p0*(tabs/Ts)^(g/Rd/gamma)*wvpinf*exp(-L/Rv/tabs)))
 
 cex=1.25
-logtaulim = c(-15,8)
+logtaulim = c(-15,9)
 tabslim  = c(SSTlist[N],200)
 kindvec   = c(which.min(abs(kvals-100)),which.min(abs(kvals-500)),which.min(abs(kvals-900)))
 Nk		  = length(kindvec)
-colvec 	  = tim.colors(Nk)
 
 #=============#
 # Begin plots #
@@ -106,6 +111,7 @@ pdf("~/Dropbox/rad_cooling/git/figures/tauk.pdf",width=10,height=5)
 par(mfrow=c(1,2),oma=c(0,1,0,1))
 
 # tau check
+colvec 	  = tim.colors(Nk)
 plot(1,type="n",
       ylim = rev(range(tabs)),
 	  xlim = logtaulim,
@@ -118,14 +124,15 @@ plot(1,type="n",
 		)
 for (n in 1:Nk){
 	kind = kindvec[n]
-	points(log(tau[kind,zvec]),tabs[zvec],type="l",lwd=2,col=colvec[n],lty="solid")
-	points(log(tau1[kind,zvec]),tabs[zvec],type="l",lwd=2,col=colvec[n],lty="dashed")
-	#legend("topright",c("Eqn. (3)","Eqn. (9)"),
-	#		lty==c("black",colvec),cex=1.25,lwd=2)
+	points(log(tau[kind,zvec]),tabs[zvec],type="l",lwd=2,col="black",lty="solid")
+	points(log(tau1[kind,zvec]),tabs[zvec],type="l",lwd=2,col="black",lty="dashed")
+	legend("topright",c("Eqn. (2)","Eqn. (3)"),
+			lty=c("solid","dashed"),cex=1,lwd=2)
 	}
 
 
 # varsst
+colvec 	  = tim.colors(N)
 plot(1,type="n", xlab=expression(ln~ tau[k]),ylab="Temperature (K)",main="Optical Depth",
         xlim=logtaulim,ylim=tabslim,cex.lab=cex,cex.main=cex,cex.axis=cex)
 for (n in 1:N){  
