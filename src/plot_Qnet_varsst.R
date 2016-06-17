@@ -6,8 +6,8 @@ source("~/Dropbox/Rtools/thermo_tools.R")
 source("~/Dropbox/Rtools/calculus_tools.R")
 
 # Get data
-SSTlist = c(280,290,300,310,320)
-N       = length(SSTlist)
+N		= 5
+SSTlist = 270 + 10*(1:N)
 datadir = "~/Dropbox/rad_cooling/data/prod_data_4_22_16"
 dqdtsLW_vec = numeric(N)
 dqdtsSW_vec = numeric(N)
