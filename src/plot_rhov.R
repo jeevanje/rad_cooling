@@ -35,6 +35,7 @@ tabslim = c(310,170)
 rhovlim = c(1e-8,4e-2)
 lwd =2.5
 cex = 1.5
+leg_title = expression(T[s]~~"(K)")
 
 # Begin plots
 pdf(file="~/Dropbox/rad_cooling/git/figures/rhov.pdf",width=9,height=5)
@@ -58,7 +59,8 @@ for (i in 1:N){
 	rhov = eval(as.name(paste("rhov",SST,sep="")))
 	points(rhov[zvec],tabs[zvec],type="l",lwd=lwd, col = colvec[i])
 	}
-legend("topright",legend=SSTlist,lty="solid",col=colvec,lwd=2,title="SST (K)",cex=1.25)
+legend("topright",legend=SSTlist,lty="solid",col=colvec,
+		lwd=2,title=leg_title,cex=1.25)
 
 	
 

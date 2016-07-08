@@ -30,16 +30,19 @@ for (i in 1:N){
 	klcl = which.max(cloud[1:15])
 	zmax = 22.5e3
 	kmax = which.min(abs(zmax-z))
-	zvec = klcl:kmax
+#	zvec = klcl:kmax
+	zvec = 1:kmax
 	lwup = apply(get.var.ncdf(nc,start=start,"lwup"),1,mean)	
 	lwdown = apply(get.var.ncdf(nc,start=start,"lwdown"),1,mean)	
+	F = lwup - lwdown
 	lapse  = -partialder_i2s(3,z,s2i(3,z,tabs))
-	ppzf =  partialder_i2s(3,z,lwup-lwdown)  # W/m^3
+	ppzf =  partialder_i2s(3,z,F)  # W/m^3
 	assign(paste("klcl",SST,sep=""),klcl)
 	assign(paste("zvec",SST,sep=""),zvec)
 	assign(paste("tabs",SST,sep=""),tabs)
 	assign(paste("lapse",SST,sep=""),lapse)
 	assign(paste("p",SST,sep=""),p)
+	assign(paste("F",SST,sep=""),F)	
 	assign(paste("pptf",SST,sep=""),ppzf/lapse)	
 	}
 
@@ -82,7 +85,7 @@ for (i in 1:N){
 		} else {
 		points(pptf,1e-3*z[zvec],type="l",lwd=2, col = col,lty=lty)
 		}
-	legend("topright",legend=SSTlist,lwd=2,cex=1.5,col=colvec,title="SST (K)")
+	legend("topright",legend=SSTlist,lwd=2,cex=1.5,col=colvec,title=expression(T[s] ~~ "(K)"))
 	}
 
 

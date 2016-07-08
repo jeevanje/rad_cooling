@@ -83,7 +83,7 @@ for (i in 1:N){
 		} else {
 		points(pptf,1e-3*z[zvec],type="l",lwd=2, col = col,lty=lty)
 		}
-	legend("topleft",legend=SSTlist,lwd=2,cex=1.5,col=colvec,title="SST (K)")
+	legend("topleft",legend=SSTlist,lwd=2,cex=1.5,col=colvec,title=expression(T[s] ~~ "(K)"))
 	}
 
 

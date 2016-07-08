@@ -106,11 +106,11 @@ for (channel in c("SW","LW","Net")) {
 
 	# Plot slopes
 	slopevec=1:5
-	segments(x0[slopevec],y0[slopevec],x1[slopevec],y1[slopevec],col="red",lty="solid",lwd=2.5)	
+		segments(x0[slopevec],y0[slopevec],x1[slopevec],y1[slopevec],col="red",lty="solid",lwd=2.5)	
 
 	# Add precip and legend
 	if (channel == "Net"){
-		points(SSTlist,precipvec,pch=8, col="blue",cex=cex)     
+		points(SSTlist,precipvec,pch=8, col="blue",cex=cex,type="p")     
 		legend("topleft",c(expression("CRM"~~ Q),"CRM P","Eqn. (9)"),
                 lwd=c(NA,NA,2),pch=c(16,8,NA),
                 col=c("black","blue","red"),cex=1.5)
