@@ -30,8 +30,8 @@ for (i in 1:N){
 	klcl = which.max(cloud[1:15])
 	zmax = 22.5e3
 	kmax = which.min(abs(zmax-z))
-#	zvec = klcl:kmax
-	zvec = 1:kmax
+	zvec = klcl:kmax
+#	zvec = 1:kmax
 	lwup = apply(get.var.ncdf(nc,start=start,"lwup"),1,mean)	
 	lwdown = apply(get.var.ncdf(nc,start=start,"lwdown"),1,mean)	
 	F = lwup - lwdown
