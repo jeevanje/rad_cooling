@@ -1,0 +1,5 @@
+*.png
+figures/*.pdf
+figures/*.png
+figures/*.pptx
+src/*.R~
