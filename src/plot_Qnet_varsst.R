@@ -1,6 +1,5 @@
 library(ncdf)
 library(fields)
-source("calculus_tools.R")
 load("../data/crm.Rdata")
 
 pdf(file="../figures/Qnet_varsst.pdf",width=12,height=5)
