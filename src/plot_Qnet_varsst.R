@@ -1,79 +1,9 @@
 library(ncdf)
 library(fields)
+source("calculus_tools.R")
+load("../data/crm.Rdata")
 
-source("~/Dropbox/Rtools/plot_tools.R")
-source("~/Dropbox/Rtools/thermo_tools.R")
-source("~/Dropbox/Rtools/calculus_tools.R")
-
-# Get data
-N		= 5
-SSTlist = 270 + 10*(1:N)
-datadir = "~/Dropbox/rad_cooling/data/prod_data_4_22_16"
-dqdtsLW_vec = numeric(N)
-dqdtsSW_vec = numeric(N)
-dqdtsNet_vec = numeric(N)
-QSWvec	= numeric(N)
-QLWvec	= numeric(N)
-QNetvec	= numeric(N)
-precipvec	= numeric(N)
-SHFvec	= numeric(N)
-zlcl = 125
-nt_avg_gs = 20*4  # 20 days x 4x daily sampling
-nt_avg_vs = 20  # 20 days 
-
-for (i in 1:N){
-	SST  = SSTlist[i]
-    # precip
-    globalstatspath = paste(datadir,"/",SST,"k/data/globalstats.nc",sep="")
-    nc_gs = open.ncdf(globalstatspath)
-    time_gs = get.var.ncdf(nc_gs,"time")
-    nt_gs = length(time_gs)
-	start = nt_gs-nt_avg_gs
-    precip = -mean(get.var.ncdf(nc_gs,start=start,"dlsurf"))*L
-	precipvec[i] = precip
-    SHF = -mean(get.var.ncdf(nc_gs,start=start,"qsurf"))
-	precipvec[i] = precip
-	SHFvec[i] = SHF
-
-	# verticalstats
-	ncpath = paste(datadir,"/",SST,"k/data/verticalstats.nc",sep="")
-	nc = open.ncdf(ncpath)
-	time = get.var.ncdf(nc,"time")
-	z = get.var.ncdf(nc,"z")
-	nz = length(z)
-	nt = length(time)
-	start = c(1,nt-nt_avg_vs)
-	tabs = apply(get.var.ncdf(nc,start=start,"tabs"),1,mean)	
-	cloud = apply(get.var.ncdf(nc,start=start,"cloud"),1,mean)	
-	if (SST != 330){
-		klcl = which.max(cloud[1:15])
-		} else {
-		klcl = klcl320	
-	}
-#	klcl = which.min(abs(z-zlcl))
-	lapse = - partialder_i2s(3,z,s2i(3,z,tabs))
-	lwup = apply(get.var.ncdf(nc,start=start,"lwup"),1,mean)	
-	lwdown = apply(get.var.ncdf(nc,start=start,"lwdown"),1,mean)	
-	swup = apply(get.var.ncdf(nc,start=start,"swup"),1,mean)	
-	swdown = apply(get.var.ncdf(nc,start=start,"swdown"),1,mean)	
-	Flw = lwup-lwdown
-	Fsw = swup-swdown
-	Fnet = Flw+Fsw
-	ppzflw = partialder_i2s(3,z,Flw)
-	ppzfsw = partialder_i2s(3,z,Fsw)
-	ppzfnet = ppzflw+ppzfsw
-	Qlw = Flw[nz]-Flw[klcl]
-	Qsw = Fsw[nz]-Fsw[klcl]
-	Qnet = Fnet[nz]-Fnet[klcl]
-	QLWvec[i] = Qlw
-	QSWvec[i] = Qsw
-	QNetvec[i] = Qnet
-	dqdtsLW_vec[i] = ppzflw[klcl]/lapse[klcl] 
-	dqdtsSW_vec[i] = ppzfsw[klcl]/lapse[klcl] 
-	dqdtsNet_vec[i] = ppzfnet[klcl]/lapse[klcl] 
-	}
-
-pdf(file="~/Dropbox/rad_cooling/git/figures/Qnet_varsst.pdf",width=12,height=5)
+pdf(file="../figures/Qnet_varsst.pdf",width=12,height=5)
 par(mfrow=c(1,3),mar=c(5,6,5,3))
 cex=2
 

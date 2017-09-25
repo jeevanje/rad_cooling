@@ -1,50 +1,10 @@
 library(ncdf)
 library(fields)
-
-source("~/Dropbox/Rtools/plot_tools.R")
-source("~/Dropbox/Rtools/thermo_tools.R")
-source("~/Dropbox/Rtools/calculus_tools.R")
-source("~/Dropbox/rad_cooling/src/h2o_data.R")
+source("calculus_tools.R")
+load("../data/crm.Rdata")
 
 SSTlist = c(280,290,300,310)
 N       = length(SSTlist)
-datadir = "~/Dropbox/rad_cooling/data"
-
-#===========#
-# Get data  #
-#===========#
-
-for (i in 1:N){
-	SST  = SSTlist[i]
-	ncpath = paste(datadir,"/prod_data_4_22_16/",SST,"k/data/verticalstats.nc",sep="")
-	nc = open.ncdf(ncpath)
-	z    = get.var.ncdf(nc,"z")
-	nz   = length(z)
-	time = get.var.ncdf(nc,"time")
-	nt = length(time)
-	nt_avg = 20
-	start = c(1,nt-nt_avg)
-	tabs = apply(get.var.ncdf(nc,start=start,"tabs"),1,mean)	
-	p = apply(get.var.ncdf(nc,start=start,"p"),1,mean)	
-	cloud = apply(get.var.ncdf(nc,start=start,"cloud"),1,mean)	
-	klcl = which.max(cloud[1:15])
-	zmax = 22.5e3
-	kmax = which.min(abs(zmax-z))
-	zvec = klcl:kmax
-	swup = apply(get.var.ncdf(nc,start=start,"swup"),1,mean)	
-	swdown = apply(get.var.ncdf(nc,start=start,"swdown"),1,mean)	
-	lapse  = -partialder_i2s(3,z,s2i(3,z,tabs))
-	ppzf =  partialder_i2s(3,z,swup-swdown)  # W/m^3
-	assign(paste("klcl",SST,sep=""),klcl)
-	assign(paste("zvec",SST,sep=""),zvec)
-	assign(paste("tabs",SST,sep=""),tabs)
-	assign(paste("lapse",SST,sep=""),lapse)
-	assign(paste("p",SST,sep=""),p)
-	assign(paste("pptf",SST,sep=""),ppzf/lapse)	
-	}
-
-
-
 colvec = tim.colors(length(SSTlist))
 cex=2
 xlim=c(0,5)
@@ -54,7 +14,7 @@ xlim=c(-2,0)
 main = "SW flux divergence"
 xlab = expression(-partialdiff[T]*F[SW]~~"("~W/m^2/K~")") 
 
-pdf(file="~/Dropbox/rad_cooling/git/figures/pptfsw_tinv_dam.pdf",width=12,height=5)
+pdf(file="../figures/pptfsw_tinv_dam.pdf",width=12,height=5)
 par(mfrow=c(1,3),mar=c(5,6,5,3))
 
 #===========#
@@ -65,7 +25,7 @@ for (i in 1:N){
 	Ts  = SSTlist[i]
 	col = colvec[i]
 	zvec =  eval(as.name(paste("zvec",Ts,sep="")))
-	pptf =  eval(as.name(paste("pptf",Ts,sep="")))[zvec]
+	pptf =  eval(as.name(paste("pptfsw",Ts,sep="")))[zvec]
 	if (i == 1){
 		plot(pptf,1e-3*z[zvec],
 			xlab=xlab,
@@ -95,7 +55,7 @@ for (i in 1:N){
 	Ts  = SSTlist[i]
 	col = colvec[i]
 	zvec =  eval(as.name(paste("zvec",Ts,sep="")))
-	pptf =  eval(as.name(paste("pptf",Ts,sep="")))[zvec]
+	pptf =  eval(as.name(paste("pptfsw",Ts,sep="")))[zvec]
 	p =  eval(as.name(paste("p",Ts,sep="")))[zvec]
 	if (i == 1){
 		plot(pptf,1e-2*p,
@@ -124,7 +84,7 @@ for (i in 1:N){
 	Ts  = SSTlist[i]
 	col = colvec[i]
 	zvec =  eval(as.name(paste("zvec",Ts,sep="")))
-	pptf =  eval(as.name(paste("pptf",Ts,sep="")))[zvec]
+	pptf =  eval(as.name(paste("pptfsw",Ts,sep="")))[zvec]
 	tabs =  eval(as.name(paste("tabs",Ts,sep="")))[zvec]
 	if (i == 1){
 		plot(pptf,tabs,

@@ -1,32 +1,9 @@
 library(ncdf)
 library(fields)
+load("../data/crm.Rdata")
 
-source("~/Dropbox/Rtools/plot_tools.R")
-source("~/Dropbox/Rtools/thermo_tools.R")
-source("~/Dropbox/Rtools/calculus_tools.R")
-
-# Open nc files
 SSTlist = c(280,290,300,310)
-N       = length(SSTlist)
-datadir = "~/Dropbox/rad_cooling/data"
-for (i in 1:N){
-	SST  = SSTlist[i]
-	ncpath = paste(datadir,"/prod_data_4_22_16/",SST,"k/data/verticalstats.nc",sep="")
-	nc = open.ncdf(ncpath)
-	time = get.var.ncdf(nc,"time")
-	nt = length(time)
-	navg = 20 # days to average
-	tabs = apply(get.var.ncdf(nc,start=c(1,nt-navg),"tabs"),1,mean)	
-	rho = apply(get.var.ncdf(nc,start=c(1,nt-navg),"rho"),1,mean)	
-	qv = apply(get.var.ncdf(nc,start=c(1,nt-navg),"qv"),1,mean)	
-	assign(paste("nc",SST,sep=""),nc)
-	assign(paste("nt",SST,sep=""),nt)
-	assign(paste("tabs",SST,sep=""),tabs)	
-	assign(paste("rhov",SST,sep=""),qv*rho)	
-	}
-	
-z    = get.var.ncdf(nc280,"z")
-nz   = length(z)
+N       = length(SSTlist)	
 zmax = 25e3
 kmax = which.min(abs(zmax-z))
 zvec = 1:kmax
@@ -38,7 +15,7 @@ cex = 1.5
 leg_title = expression(T[s]~~"(K)")
 
 # Begin plots
-pdf(file="~/Dropbox/rad_cooling/git/figures/rhov.pdf",width=9,height=5)
+pdf(file="../figures/rhov.pdf",width=9,height=5)
 par(mfrow=c(1,2),mar=c(5,5,5,3))
 
 # linear plot
