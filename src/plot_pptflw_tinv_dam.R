@@ -1,6 +1,5 @@
 library(ncdf)
 library(fields)
-source("calculus_tools.R")
 load("../data/crm.Rdata")
 
 SSTlist = c(280,290,300,310)
