@@ -39,6 +39,14 @@ Lambert, F.~H. and Webb, M.~J. (2008).
 \newblock {Dependency of global mean precipitation on surface temperature}.
 \newblock {\em Geophysical Research Letters}, 35(16):1--5.
 
+\bibitem[\protect\astroncite{{Le Hir} et~al.}{2009}]{lehir2009}
+{Le Hir}, G., Donnadieu, Y., Godd{\'{e}}ris, Y., Pierrehumbert, R.~T.,
+  Halverson, G.~P., Macouin, M., N{\'{e}}d{\'{e}}lec, A., and Ramstein, G.
+  (2009).
+\newblock {The snowball Earth aftermath: Exploring the limits of continental
+  weathering processes}.
+\newblock {\em Earth and Planetary Science Letters}, 277(3-4):453--463.
+
 \bibitem[\protect\astroncite{Lin et~al.}{1983}]{lin1983}
 Lin, Y.-L., Farley, R.~D., and Orville, H.~D. (1983).
 \newblock {Bulk Parameterization of the Snow Field in a Cloud Model}.
@@ -77,6 +85,12 @@ Pendergrass, A.~G. and Hartmann, D.~L. (2014).
 \newblock {The Atmospheric Energy Constraint on Global-Mean Precipitation
   Change}.
 \newblock {\em Journal of Climate}, 27(2):757--768.
+
+\bibitem[\protect\astroncite{Pierrehumbert}{1999}]{pierrehumbert1999}
+Pierrehumbert, R.~T. (1999).
+\newblock {Subtropical water vapor as a mediator of rapid global climate
+  change}.
+\newblock (1994).
 
 \bibitem[\protect\astroncite{Rodgers and Walshaw}{1966}]{rodgers1966}
 Rodgers, C.~D. and Walshaw, C.~D. (1966).
@@ -128,8 +142,8 @@ Tsushima, Y., Iga, S.~I., Tomita, H., Satoh, M., Noda, A.~T., and Webb, M.~J.
   nonhydrostatic model including explicit convective processes}.
 \newblock {\em Journal of Advances in Modeling Earth Systems}, 6(3):571--585.
 
-\bibitem[\protect\astroncite{Wing et~al.}{}]{wing2017b}
-Wing, A.~A., Satoh, M., Reed, K.~A., Stevens, B., and Bony, S.
+\bibitem[\protect\astroncite{Wing et~al.}{2017}]{wing2017b}
+Wing, A.~A., Satoh, M., Reed, K.~A., Stevens, B., and Bony, S. (2017).
 \newblock {Radiative-Convective Equilibrium Model Intercomparison Project}.
 \newblock {\em Geoscientific Model Development Discussions}, pages 1--24.
 
