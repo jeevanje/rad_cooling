@@ -5,7 +5,8 @@ model_k <- which(model_names=='IPSL-CM5A-LR')
 pdf('../figures/fnet_all.pdf',width=9,height=7)
 layout(matrix(1:6,nrow=2))
 par(mar=c(5,5,4,3))
-cex    = 1.5
+cex    = 2
+cex_leg= 1.25
 lwd    = 2
 xlim   = c(0,5)
 ylim   = c(300,200)
@@ -36,7 +37,7 @@ for (model_k in 1:length(model_names)) {
 	   points(-diff(x)/2,Tvals[-1],type='l',col=col,lwd=lwd)
 	}
 	if (model == "IPSL-CM5A-LR"){
-		legend("topright",legend=caselist,col=colvec,lwd=2,cex=1.25)
+		legend("topright",legend=caselist,col=colvec,lwd=2,cex=cex_leg)
 	}
 }
 

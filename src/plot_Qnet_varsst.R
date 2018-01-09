@@ -4,7 +4,8 @@ load("../data/crm.Rdata")
 
 pdf(file="../figures/Qnet_varsst.pdf",width=12,height=5)
 par(mfrow=c(1,3),mar=c(5,6,5,3))
-cex=2
+cex=2.5
+cex_leg = 1.75
 
 for (channel in c("SW","LW","Net")) {
 	Qvec = eval(as.name(paste("Q",channel,"vec",sep="")))
@@ -40,9 +41,9 @@ for (channel in c("SW","LW","Net")) {
 	# Add precip and legend
 	if (channel == "Net"){
 		points(SSTlist,precipvec,pch=8, col="blue",cex=cex,type="p")     
-		legend("topleft",c(expression("CRM"~~ Q),"CRM P","Eqn. (9)"),
+		legend("topleft",c(expression("CRM"~~ Q),"CRM LP","Eqn. (9)"),
                 lwd=c(NA,NA,2),pch=c(16,8,NA),
-                col=c("black","blue","red"),cex=1.5)
+                col=c("black","blue","red"),cex=cex_leg)
 		}
 
 	}

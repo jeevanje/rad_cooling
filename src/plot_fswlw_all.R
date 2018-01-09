@@ -3,7 +3,8 @@ load('../data/f.RData')
 pdf('../figures/fswlw_all.pdf',width=10,height=7)
 layout(matrix(1:6,nrow=2))
 par(mar=c(5,5,4,3))
-cex    = 1.5
+cex    = 2
+cex_leg= 1.35
 lwd    = 2
 xlim   = c(-3,7)
 ylim   = c(300,200)
@@ -37,7 +38,7 @@ for (model_k in 1:length(model_names)) {
 	}
 	if (model == "CanAM4"){
 		legend(x=2,y=220,legend=c(caselist,"LW","SW"),col=c(colvec,"black","black"),
-		lwd=2,lty=c("solid","solid","solid","dashed"),cex=1.25,bty="n")
+		lwd=2,lty=c("solid","solid","solid","dashed"),cex=cex_leg,bty="n")
 	}
 }
 

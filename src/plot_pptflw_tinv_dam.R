@@ -4,8 +4,9 @@ load("../data/crm.Rdata")
 
 SSTlist = c(280,290,300,310)
 N       = length(SSTlist)
-colvec = tim.colors(length(SSTlist))
-cex=2
+colvec  = tim.colors(length(SSTlist))
+cex     = 2.5
+cex_leg = 2
 xlim=c(0,5)
 tabslim = c(max(SSTlist),170)
 lty="solid"
@@ -41,7 +42,7 @@ for (i in 1:N){
 		} else {
 		points(pptf,1e-3*z[zvec],type="l",lwd=2, col = col,lty=lty)
 		}
-	legend("topright",legend=SSTlist,lwd=2,cex=1.5,col=colvec,title=expression(T[s] ~~ "(K)"))
+	legend("topright",legend=SSTlist,lwd=2,cex=cex_leg,col=colvec,title=expression(T[s] ~~ "(K)"))
 	}
 
 
