@@ -35,6 +35,11 @@ Pendergrass AG, Hartmann DL (2014) {The Atmospheric Energy Constraint on
   Global-Mean Precipitation Change}.
 \newblock {\em Journal of Climate} 27(2):757--768.
 
+\bibitem{takahashi2009}
+Takahashi K (2009) {Radiative Constraints on the Hydrological Cycle in an
+  Idealized Radiative–Convective Equilibrium Model}.
+\newblock {\em Journal of the Atmospheric Sciences} 66(1):77--91.
+
 \bibitem{simpson1928}
 Simpson G (1928) {Some Studies in Terrestriall Radiation}.
 \newblock {\em Memoirs of the Royal Meteorological Society} 2(16):69--95.
@@ -94,6 +99,16 @@ Margolin LG, Rider WJ, Grinstein FF (2006) {Modeling turbulent flow with
 Romps DM (2014) {An Analytical Model for Tropical Relative Humidity}.
 \newblock {\em Journal of Climate} 27(19):7432--7449.
 
+\bibitem{flaschner2016}
+Fl{\"{a}}schner D, Mauritsen T, Stevens B (2016) {Understanding the inter-model
+  spread in global-mean hydrological sensitivity}.
+\newblock {\em Journal of Climate} 29:801--817.
+
+\bibitem{samset2017}
+Samset BH, et~al. (2017) {Weak hydrological sensitivity to temperature change
+  over land, independent of climate forcing}.
+\newblock {\em npj Climate and Atmospheric Science} 1.
+
 \bibitem{thomas2002}
 Thomas GE, Stamnes K (2002) {\em {Radiative Transfer in the Atmosphere and
   Ocean}}.
@@ -105,20 +120,52 @@ Rodgers CD, Walshaw CD (1966) {The computation of infra-red cooling rate in
 \newblock {\em Quarterly Journal of the Royal Meteorological Society}
   92:67--92.
 
+\bibitem{hartmann2002}
+Hartmann DL, Larson K (2002) {An important constraint on tropical cloud -
+  climate feedback}.
+\newblock {\em Geophysical Research Letters} 29(20):1951.
+
+\bibitem{kuang2007}
+Kuang Z, Hartmann DL (2007) {Testing the fixed anvil temperature hypothesis in
+  a cloud-resolving model}.
+\newblock {\em Journal of Climate} 20(10):2051--2057.
+
+\bibitem{harrop2012}
+Harrop BE, Hartmann DL (2012) {Testing the role of radiation in determining
+  tropical cloud-top temperature}.
+\newblock {\em Journal of Climate} 25(17):5731--5747.
+
+\bibitem{betts1989}
+Betts AK, Ridgway W (1989) {Climatic equilibrium of the atmospheric convective
+  boundary layer over a tropical ocean}.
+
+\bibitem{pierrehumbert2010}
+Pierrehumbert RT (2010) {\em {Principles of Planetary Climate}}.
+\newblock (Cambridge University Press).
+
 \bibitem{goldblatt2013}
 Goldblatt C, Robinson TD, Zahnle KJ, Crisp D (2013) {Low simulated radiation
   limit for runaway greenhouse climates}.
 \newblock {\em Nature Geoscience} 6(8):661--667.
+
+\bibitem{wolf2014}
+Wolf E, Toon E (2014) {Delayed onset of runaway and moist greenhouse climates
+  for Earth}.
+\newblock {\em Geophysical Research Letters} 41(1):167--172.
+
+\bibitem{leconte2013}
+Leconte J, Forget F, Charnay B, Wordsworth R, Pottier A (2013) {Increased
+  insolation threshold for runaway greenhouse processes on Earth-like planets.}
+\newblock {\em Nature} 504(7479):268--71.
 
 \bibitem{lehir2009}
 {Le Hir} G, et~al. (2009) {The snowball Earth aftermath: Exploring the limits
   of continental weathering processes}.
 \newblock {\em Earth and Planetary Science Letters} 277(3-4):453--463.
 
-\bibitem{pierrehumbert1999}
-Pierrehumbert RT (1999) {As a Mediator of Rapid Global Climate Change transient
-  eddy activity , or contracting}.
-\newblock (1994).
+\bibitem{pierrehumbert2002}
+Pierrehumbert RT (2002) {The hydrologic cycle in deep-time climate problems.}
+\newblock {\em Nature} 419(6903):191--198.
 
 \bibitem{bony2011}
 Bony S, et~al. (2011) {CFMIP: Towards a better evaluation and understanding of

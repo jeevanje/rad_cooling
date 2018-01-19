@@ -1,0 +1,248 @@
+\documentclass[11pt]{article}
+
+\usepackage{geometry}
+\usepackage{latexsym, amsmath, amssymb}
+\usepackage{psfrag}
+\usepackage{mathrsfs}
+\usepackage{bbm}
+\usepackage[pdftex]{graphicx}
+\usepackage{natbib}
+
+
+%My Standard Shortcuts - these are frequently used below!
+\newcommand{\beqn}{\begin{equation}}
+\newcommand{\eeqn}{\end{equation}}
+\newcommand{\beqa}{\begin{eqnarray}}
+\newcommand{\eeqa}{\end{eqnarray}}
+\newcommand{\beqanonum}{\begin{eqnarray*}}
+\newcommand{\eeqanonum}{\end{eqnarray*}}
+\newcommand{\beqnonum}{\begin{equation*}}
+\newcommand{\eeqnonum}{\end{equation*}}
+\newcommand{\jump}{\vspace{0.5cm}}
+\newcommand{\bbf}{\begin{bf}}
+\newcommand{\ebf}{\end{bf}}
+\newcommand{\eqnref}[1]{(\ref{#1})}
+\newcommand{\defn}[1]{\begin{bf}\emph{#1}\end{bf}}
+\newcommand{\reals}{\ensuremath{\mathbb{R}}}
+\newcommand{\complex}{\ensuremath{\mathbb{C}}}
+\newcommand{\integers}{\ensuremath{\mathbb{Z}}}
+\newcommand{\half}{\ensuremath{\textstyle{\frac{1}{2}}}}
+
+%calculus shorthand
+\newcommand{\timeder}{\frac{d}{dt}}
+\newcommand{\partialder}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\partialderf}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
+\newcommand{\der}[2]{\ensuremath{\frac{d #1}{d #2}}}
+\newcommand{\dx}{\ensuremath{\frac{d}{dx}}}
+\newcommand{\ddx}{\ensuremath{\frac{d}{dx}}}
+\newcommand{\kvec}{\ensuremath{\vec{k}}}
+\newcommand{\uvec}{\ensuremath{\mathbf{u}}}
+\newcommand{\zhat}{\ensuremath{\mathbf{\hat{z}}}}
+\newcommand{\khat}{\ensuremath{\mathbf{\hat{k}}}}
+\newcommand{\unitvect}[1]{\ensuremath{\mathbf{\hat{#1}}}}
+\newcommand{\ppx}{\ensuremath{\partial_x}}
+\newcommand{\ppy}{\ensuremath{\partial_y}}
+\newcommand{\ppz}{\ensuremath{\partial_z}}
+\newcommand{\ppt}{\ensuremath{\partial_T}}
+\newcommand{\ppp}{\ensuremath{\partial_p}}
+
+% radiation shorthand
+\newcommand{\cotwo}{\ensuremath{\mathrm{CO_2}}}
+\newcommand{\othree}{\ensuremath{\mathrm{O_3}}}
+\newcommand{\htwo}{\ensuremath{\mathrm{H_2O}}}
+\newcommand{\QLW}{\ensuremath{Q_\mathrm{LW}}}
+\newcommand{\QSW}{\ensuremath{Q_\mathrm{SW}}}
+\newcommand{\Qnet}{\ensuremath{Q_\mathrm{net}}}
+\newcommand{\FLW}{\ensuremath{F^\mathrm{LW}}}
+\newcommand{\FSW}{\ensuremath{F^\mathrm{SW}}}
+\newcommand{\FLWgl}{\ensuremath{F^\mathrm{LW}_{\mathrm{gl}}}}
+\newcommand{\FSWgl}{\ensuremath{F^\mathrm{SW}_{\mathrm{gl}}}}
+\newcommand{\USW}{\ensuremath{U^\mathrm{SW}}}
+\newcommand{\DSW}{\ensuremath{D^\mathrm{SW}}}
+\newcommand{\Fnet}{\ensuremath{F^\mathrm{net}}}
+\newcommand{\Fnetgl}{\ensuremath{F^\mathrm{net}_{\mathrm{gl}}}}
+\newcommand{\Fgl}{\ensuremath{F_{\mathrm{gl}}}}
+\newcommand{\olr}{\ensuremath{\mathrm{OLR}}}
+\newcommand{\OLR}{\ensuremath{\mathrm{OLR}}}
+\newcommand{\trans}{\ensuremath{\mathcal{T}}}
+\newcommand{\solar}{\ensuremath{I_0}}
+\newcommand{\cool}{\ensuremath{\mathcal{C}}}
+\newcommand{\cminverse}{\ensuremath{\mathrm{cm^{-1}}}}
+\newcommand{\pierre}{P10}
+\newcommand{\tauk}{\ensuremath{\tau_\lambda}}
+\newcommand{\Wmsq}{\ensuremath{\mathrm{W/m^2}}}
+\newcommand{\meter}{\ensuremath{\mathrm{m}}}
+\newcommand{\kg}{\ensuremath{\mathrm{kg}}}
+\newcommand{\Kinverse}{\ensuremath{\mathrm{K^{-1}}}}
+\newcommand{\Kelvin}{\ensuremath{\mathrm{K}}}
+
+
+% meteorology shorthand
+\newcommand{\qv}{\ensuremath{q}}
+\newcommand{\rhov}{\ensuremath{\rho_\mathrm{v}}}
+\newcommand{\Hv}{\ensuremath{H_\mathrm{v}}}
+\newcommand{\Rv}{\ensuremath{R_\mathrm{v}}}
+\newcommand{\qa}{\ensuremath{q_a}}
+\newcommand{\qvstar}{\ensuremath{q^*}}
+\newcommand{\pvstar}{\ensuremath{p^*_{\mathrm{v}}}}
+\newcommand{\Ta}{\ensuremath{T_a}}
+\newcommand{\Tav}{\ensuremath{T_\mathrm{av}}}
+\newcommand{\Ts}{\ensuremath{T_\mathrm{s}}}
+\newcommand{\Tsgl}{\ensuremath{T_\mathrm{s,gl}}}
+\newcommand{\ps}{\ensuremath{p_s}}
+\newcommand{\RH}{\ensuremath{\mathrm{RH}}}
+\newcommand{\cld}{\ensuremath{\mathrm{Cld}}}
+\newcommand{\WVP}{\ensuremath{\mathrm{WVP}}}
+\newcommand{\ztop}{\ensuremath{z_\mathrm{top}}}
+\newcommand{\ztp}{\ensuremath{z_\mathrm{tp}}}
+\newcommand{\zlcl}{\ensuremath{z_\mathrm{LCL}}}
+\newcommand{\Tlcl}{\ensuremath{T_\mathrm{LCL}}}
+\newcommand{\Ttp}{\ensuremath{T_\mathrm{tp}}}
+\newcommand{\ptp}{\ensuremath{p_\mathrm{tp}}}
+\newcommand{\lapseav}{\ensuremath{\Gamma_\mathrm{av}}}
+\newcommand{\gammaav}{\ensuremath{\Gamma_\mathrm{av}}}
+\newcommand{\Htauk}{\ensuremath{H_{\tau_k}}}
+\newcommand{\east}{\ensuremath{\mathrm{E}}}
+\newcommand{\north}{\ensuremath{\mathrm{N}}}
+\newcommand{\south}{\ensuremath{\mathrm{S}}}
+\newcommand{\tav}{\ensuremath{t_\mathrm{av}}}
+\newcommand{\kmax}{\ensuremath{k_\mathrm{max}}}
+\newcommand{\kmin}{\ensuremath{k_\mathrm{min}}}
+
+\newcommand{\figurepath}{../../figures/}
+
+\begin{document}
+
+\begin{center}
+ \Large{ \bf  Supplemental Information for \emph{Mean precipitation change from a deepening troposphere} }
+
+\jump
+\large{Nadir Jeevanjee and David M. Romps}
+\end{center}
+
+%\section{Pressure Broadening}
+%In the main text we neglect pressure broadening and temperature scaling when discussing the \Ts-invariance of $\tauk(T)$. Here we justify these approximations.
+%
+%Temperature scaling of absorption coefficients is consistent with $\tauk$ being a function of temperature only, and does not introduce any new \Ts-dependence of $\tauk(T)$. This justifies neglecting it in Eqn. (3) in the main text.  Pressure broadening, on the other hand, cannot be neglected with such a straightforward argument. Rather, we compute profiles of $\tauk(T)$ for our RCE simulations both with and without pressure broadening and then compare them (Fig. \ref{tau_profiles}).
+%
+% The left panel of Fig. \ref{tau_profiles}shows $\tauk(T)$ as computed via Eqn. (3) with $\kappa(\lambda) = 1 \ \meter^2/\kg$ (this value is arbitrary and immaterial, since any variation in $\kappa$ simply produces a horizontal translation in such a log plot) and the upper limit of integration taken at model top rather than infinity. The right panel shows a pressure-broadened version of this quantity which has a factor of $p/\ps$ in the integral, but is otherwise identical. One can see that while pressure broadening does change the absolute values of the $\tauk(T)$ profiles (note the difference in, say, \tauk(180\ \Kelvin)$ between the panels), and also introduces additional spread between the $\tauk(T)$ profiles at differing \Ts, this spread is minimal. If we focus on $\tau =1$ where emission-to-space is concentrated, the spread between profiles is roughly 5 K. Assuming linearity of the planck function $B(\lambda,T)$ in $T$ at fixed \lambda, this translates to a roughly 5 K/250 K = 2\% variation in $B(\lambda,T)$ with \Ts\ when evaluated at fixed $\kappa(\lambda) $ and $\tauk$
+% 
+%does introduce some \Ts-dependence to $\tauk(T)$, as shown in Fig. \ref{tau_profiles}.
+%%Figure tau_profiles
+%\begin{figure}[h]
+%        \begin{center}
+%                        \includegraphics[scale=0.7]{\figurepath tau_profiles.pdf}
+%                \caption{\textbf{Left}:  \textbf{Right:} 
+%                \label{tau_profiles}
+%                }
+%        \end{center}
+%\end{figure}
+
+\section{CRM clear-sky flux divergence profiles}
+The argument given in the main text for the \Ts-invariance of $-\ppt F$ is a clear-sky argument, but all-sky flux divergences are shown in Figs. 2 and 3. We argue in the main text that this is permissible because cloud fraction in these simulations never surpasses $\sim 10 \%$ at any height, so it is the clear-sky physics which dominates. This claim is supported by the left and center panels of Supplementary Fig. \ref{pptfc}, which shows that the clear-sky flux divergence profiles are almost indistinguishable from the all-sky profiles in Figs. 2 and 3, and are indeed  \Ts-invariant. The right panel directly contrasts the all-sky and clear-sky $-\ppt \Fnet$ profiles for the $\Ts=300$ K simulation, and confirms that the cloud-radiative effect in these simulations is not dramatic. 
+
+%Figure pptfcs_tinv
+\begin{figure}[h]
+        \begin{center}
+                        \includegraphics[scale=0.5]{\figurepath pptfc.pdf}
+                \caption{\textbf{Left}: Clear-sky LW flux divergence  $-\ppt \FLW$ \textbf{Center:} Clear-sky SW flux divergence  $-\ppt \FSW$  \textbf{Right:} Clear-sky and all-sky  net flux divergence for the $\Ts=300$ K simulations, all plotted as in Figs. 2 and 3. The left and center panels are almost identical to the right panels of Figs. 2 and 3, and the right panel above shows directly the small difference between the all-sky and clear-sky flux divergences. 
+                \label{pptfc}
+                }
+        \end{center}
+\end{figure}
+
+
+
+\section{GCM clear-sky flux divergence and relative humidity profiles}
+In the main text we claimed that the near-surface features in the GCM $-\ppt\Fnet$ profiles in Figs. 6 and 7 were sometimes, but not always, due to cloud radiative effects (CRE). Supplementary figure \ref{fnetcs_270_all} show both all-sky and clear-sky $-\ppt\Fnet$ profiles for the AMIP case for all models for the $\Ts=270$ K bin, for which many models show a significant near-surface CRE. Supplementary figure \ref{fnetcs_290_all}, on the other hand, is analogous to Supplementary Fig. \ref{fnetcs_270_all} but for the $\Ts=290$ K bin, in which the near-surface CRE across models is less consistent and  less significant. 
+
+Supplementary Figure \ref{rh_all} supports the claim in the main text that \Ts-binned RH profiles also exhibit \Ts-invariance aloft, but have near-surface features which shift downwards with warming. RH profiles are binned exactly as for the radiative fluxes, as described in \emph{Materials and Methods}.
+ 
+ Supplementary Figure \ref{fswlw_all} shows  all-sky $-\ppt \FLW$ and $-\ppt \FSW$ for the \Ts=290 K (AMIP) and \Ts=294 K (AMIP4K) bins for all our CFMIP models, demonstrating that the \Ts-invariance in GCMs holds for both the LW and SW separately, just as for the CRM.
+ 
+%Figure fnetcs_270_all
+\begin{figure}[h]
+        \begin{center}
+                        \includegraphics[scale=0.6]{\figurepath fnetcs_270_all.pdf}
+                \caption{All-sky and clear-sky $-\ppt\Fnet$ profiles for the AMIP case for all models for the $\Ts=270$ K bin. The majority of models show a significant near-surface CRE.
+                                \label{fnetcs_270_all}
+                }
+        \end{center}
+\end{figure}
+
+%Figure fnetcs_290_all
+\begin{figure}[h]
+        \begin{center}
+                        \includegraphics[scale=0.6]{\figurepath fnetcs_290_all.pdf}
+                \caption{As in Supplementary Figure \ref{fnetcs_270_all},  but for the $\Ts= 290$ K bin. The near-surface CRE is much less significant across models than for the $\Ts= 270$ K bin.
+                                \label{fnetcs_290_all}
+                }
+        \end{center}
+\end{figure}
+
+%Figure rh_all
+\begin{figure}[h]
+        \begin{center}
+                        \includegraphics[scale=0.6]{\figurepath rh_all.pdf}
+                \caption{RH profiles for our CFMIP models for the $\Ts=290$ (AMIP) and  $\Ts= 294$ K (AMIP4K) bins, computed just as for radiative fluxes. Like the $-\ppt\Fnet$ profiles, the RH profiles show \Ts-invariance aloft, but have lower-tropospheric features which shift downward (in temperature space) with warming.
+                                \label{rh_all}
+                }
+        \end{center}
+\end{figure}
+
+%Figure fswlw_all
+\begin{figure}[h!]
+	\begin{center}
+			\includegraphics[scale=0.6]{\figurepath fswlw_all.pdf}
+		\caption{ Profiles of $-\ppt \FSW$ and $-\ppt \FLW$ for the \Ts=290 K (AMIP) and 294 K (AMIP4K) bins for all six CFMIP models. This is similar to Fig. 7 of the main text, but with the flux divergence decomposed into the LW and SW bands to show  that \Ts-invariance in the mid and upper troposphere holds across models holds for both the LW and SW separately, just as for the CRM. 
+		\label{fswlw_all}
+		}
+	\end{center}
+\end{figure}
+
+
+%  %Figure fnet_HadGEM2-A
+%  \begin{figure}[h]
+%        \begin{center}
+%                        \includegraphics[scale=0.4]{\figurepath fnet_HadGEM2-A.pdf}
+%                \caption{As in previous figure, but for HadGEM2-A.
+%                                \label{fnet_HadGEM2-A}
+%                }
+%        \end{center}
+%  \end{figure}
+%  
+%  %Figure fnet_MIROC5
+%  \begin{figure}[h]
+%        \begin{center}
+%                        \includegraphics[scale=0.4]{\figurepath fnet_MIROC5.pdf}
+%                \caption{As in previous figure, but for MIROC5.
+%                                \label{fnet_MIROC5}
+%                }
+%        \end{center}
+%  \end{figure}
+%  
+%  %Figure fnet_MPI-ESM-LR
+%  \begin{figure}[h]
+%        \begin{center}
+%                        \includegraphics[scale=0.4]{\figurepath fnet_MPI-ESM-LR.pdf}
+%                \caption{As in previous figure, but for MPI-ESM-LR.
+%                                \label{fnet_MPI-ESM-LR}
+%                }
+%        \end{center}
+%  \end{figure}
+
+
+%==============%
+% References          %
+%==============%
+
+\bibliographystyle{apa}
+\bibliography{../../bibtex_mendeley/library}
+
+
+
+				
+		
+\end{document}
+
+
