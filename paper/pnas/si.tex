@@ -120,24 +120,6 @@
 \large{Nadir Jeevanjee and David M. Romps}
 \end{center}
 
-%\section{Pressure Broadening}
-%In the main text we neglect pressure broadening and temperature scaling when discussing the \Ts-invariance of $\tauk(T)$. Here we justify these approximations.
-%
-%Temperature scaling of absorption coefficients is consistent with $\tauk$ being a function of temperature only, and does not introduce any new \Ts-dependence of $\tauk(T)$. This justifies neglecting it in Eqn. (3) in the main text.  Pressure broadening, on the other hand, cannot be neglected with such a straightforward argument. Rather, we compute profiles of $\tauk(T)$ for our RCE simulations both with and without pressure broadening and then compare them (Fig. \ref{tau_profiles}).
-%
-% The left panel of Fig. \ref{tau_profiles}shows $\tauk(T)$ as computed via Eqn. (3) with $\kappa(\lambda) = 1 \ \meter^2/\kg$ (this value is arbitrary and immaterial, since any variation in $\kappa$ simply produces a horizontal translation in such a log plot) and the upper limit of integration taken at model top rather than infinity. The right panel shows a pressure-broadened version of this quantity which has a factor of $p/\ps$ in the integral, but is otherwise identical. One can see that while pressure broadening does change the absolute values of the $\tauk(T)$ profiles (note the difference in, say, \tauk(180\ \Kelvin)$ between the panels), and also introduces additional spread between the $\tauk(T)$ profiles at differing \Ts, this spread is minimal. If we focus on $\tau =1$ where emission-to-space is concentrated, the spread between profiles is roughly 5 K. Assuming linearity of the planck function $B(\lambda,T)$ in $T$ at fixed \lambda, this translates to a roughly 5 K/250 K = 2\% variation in $B(\lambda,T)$ with \Ts\ when evaluated at fixed $\kappa(\lambda) $ and $\tauk$
-% 
-%does introduce some \Ts-dependence to $\tauk(T)$, as shown in Fig. \ref{tau_profiles}.
-%%Figure tau_profiles
-%\begin{figure}[h]
-%        \begin{center}
-%                        \includegraphics[scale=0.7]{\figurepath tau_profiles.pdf}
-%                \caption{\textbf{Left}:  \textbf{Right:} 
-%                \label{tau_profiles}
-%                }
-%        \end{center}
-%\end{figure}
-
 \section{CRM clear-sky flux divergence profiles}
 The argument given in the main text for the \Ts-invariance of $-\ppt F$ is a clear-sky argument, but all-sky flux divergences are shown in Figs. 2 and 3. We argue in the main text that this is permissible because cloud fraction in these simulations never surpasses $\sim 10 \%$ at any height, so it is the clear-sky physics which dominates. This claim is supported by the left and center panels of Supplementary Fig. \ref{pptfc}, which shows that the clear-sky flux divergence profiles are almost indistinguishable from the all-sky profiles in Figs. 2 and 3, and are indeed  \Ts-invariant. The right panel directly contrasts the all-sky and clear-sky $-\ppt \Fnet$ profiles for the $\Ts=300$ K simulation, and confirms that the cloud-radiative effect in these simulations is not dramatic. 
 
@@ -152,6 +134,20 @@ The argument given in the main text for the \Ts-invariance of $-\ppt F$ is a cle
 \end{figure}
 
 
+%\section{Extension of CRM profiles}
+%In the main text we claim that CRM $-\ppt\Fnet$ profiles for a $\Ts + \Delta \Ts$ simulation can be obtained from the $\Ts$ simulation via the same extension procedure as used for the GCMs, but with \Tlcl\ taken to be at the actual LCL, rather than at $\Ts - 20$ K. We demonstrate this claim here.
+%
+%SI Figure \ref{}
+%
+%%Figure pptfnet_crm
+%\begin{figure}[h]
+%        \begin{center}
+%                        \includegraphics[scale=0.5]{\figurepath pptfc.pdf}
+%                \caption{\textbf{Left}: Clear-sky LW flux divergence  $-\ppt \FLW$ \textbf{Center:} Clear-sky SW flux divergence  $-\ppt \FSW$  \textbf{Right:} Clear-sky and all-sky  net flux divergence for the $\Ts=300$ K simulations, all plotted as in Figs. 2 and 3. The left and center panels are almost identical to the right panels of Figs. 2 and 3, and the right panel above shows directly the small difference between the all-sky and clear-sky flux divergences. 
+%                \label{pptfc}
+%                }
+%        \end{center}
+%\end{figure}
 
 \section{GCM clear-sky flux divergence and relative humidity profiles}
 In the main text we claimed that the near-surface features in the GCM $-\ppt\Fnet$ profiles in Figs. 6 and 7 were sometimes, but not always, due to cloud radiative effects (CRE). Supplementary figure \ref{fnetcs_270_all} show both all-sky and clear-sky $-\ppt\Fnet$ profiles for the AMIP case for all models for the $\Ts=270$ K bin, for which many models show a significant near-surface CRE. Supplementary figure \ref{fnetcs_290_all}, on the other hand, is analogous to Supplementary Fig. \ref{fnetcs_270_all} but for the $\Ts=290$ K bin, in which the near-surface CRE across models is less consistent and  less significant. 

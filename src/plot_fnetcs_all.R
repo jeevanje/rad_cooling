@@ -6,10 +6,12 @@ colvec	= c("blue","red")
 ltyvec  = c("solid","dashed")
 fluxlist= c("all-sky","clear-sky")
 legend_posvec =c("bottom","topright")
+cutoff  = 0.9  # for upper trop
+deltaT  = 5    # for lower trop
 
 for (NTs in 1:length(Tslist)){
-	Ts  = Tslist[NTs]
-	file=paste("../figures/fnetcs_",Ts,"_all.pdf",sep="")
+	Tsbase  = Tslist[NTs]
+	file=paste("../figures/fnetcs_",Tsbase,"_all.pdf",sep="")
 	pdf(file,width=9,height=7)
 	layout(matrix(1:6,nrow=2))
 	par(mar=c(5,5,4,3))
@@ -18,7 +20,7 @@ for (NTs in 1:length(Tslist)){
 	lwd    = 2
 	xlim   = c(0,6)
 	ylim   = c(300,200)
-	Ts_case= c(Ts,Ts+4)
+	Ts_case= Tsbase + c(0,4)
 
 	for (model_k in 1:length(model_names)) {
 	   model 	= model_names[model_k]
@@ -34,14 +36,17 @@ for (NTs in 1:length(Tslist)){
 	        cex.main = cex)
 	   for (case_k in 1:2){
 		   case_k = 1	
-	 	   Tsindex <- which(Tvals==Ts_case[case_k])
+		   Ts = Ts_case[case_k]
+	 	   Tsindex <- which(Tvals==Ts)
 	 	   col  = colvec[case_k]
 		   for (flux_k in 1:2){	
 			   lty = ltyvec[flux_k]
 			   xsw <- Fvals[,Tsindex,case_k,2*flux_k -1,model_k]
 			   xlw <- Fvals[,Tsindex,case_k,2*flux_k,model_k]
 			   x   = xlw + xsw
-		   	   x[which(Farea[,Tsindex,1,model_k]<0.5*max(Farea[,Tsindex,1,model_k]))] <-NA
+		   	   x[which(Farea[,Tsindex,case_k,model_k] < 
+		   	   		cutoff*max(Farea[,Tsindex,case_k,model_k]))] <-NA
+			   x[which(Tvals > (Ts - deltaT))] <- NA
 		   	   points(-diff(x)/2,Tvals[-1],type='l',col=col,lwd=lwd,lty=lty)
 			}
 		# if (model == model_names[3]){
