@@ -110,7 +110,8 @@
 \newcommand{\kmin}{\ensuremath{k_\mathrm{min}}}
 
 %Variables
-\newcommand{\figurepath}{../../figures/}
+%\newcommand{\figurepath}{../../figures/}
+\newcommand{\figurepath}{./}
 
 
 
@@ -394,8 +395,7 @@ Now, note that Eqn. \eqnref{dqdts} is equivalent to assuming that the $-\ppt \Fn
 We summarize our findings as follows:
 	\begin{itemize}
 		\item Radiative cooling profiles in temperature coordinates in RCE are  \Ts-invariant. This \Ts-invariance holds for the shortwave and longwave separately, as well as together (Figs. \ref{pptflw_tinv_dam}, \ref{pptfsw_tinv_dam}).
-		\item This \Ts-invariance yields a simple model for how column-integrated cooling and  precipitation change with \Ts\ (Eqn. \ref{dqdts}). This model captures the simulated changes (Fig. \ref{Qnet_varsst}).
-		\item \Ts-invariance also leads to an even simpler model (Eqn. \ref{dqdts_approx}) which tells us that precipitation changes in RCE are largely governed by tropospheric depth, which increases at $O(1\%)\ \Kinverse$.
+		\item This \Ts-invariance yields simple models for how column-integrated cooling and  precipitation change with \Ts\ (Eqns. \ref{dqdts} and \ref{dqdts_approx}). These models capture the simulated changes (Fig. \ref{Qnet_varsst}) and also suggest  that precipitation changes are largely governed by tropospheric depth, which increases at $O(1\%)\ \Kinverse$.
 		\item For \Ts-binned $-\ppt F$ profiles from AMIP GCM simulations, a procedure equivalent to that for the CRM yields a rough estimate of $dQ/d\Ts \approx 2\ \WmsqK$, broadly consistent with  AMIP4K simulations.
 	\end{itemize}
 		
@@ -403,9 +403,9 @@ We summarize our findings as follows:
  
  There are also unanswered questions regarding the  argument given in Section \ref{Ts_invariance}. For instance, to what degree are optical depth profiles for water vapor lines actually \Ts-invariant, as claimed here and by \cite{ingram2010}? Would a line-by-line calculation verify this? What is the role of pressure broadening? Also, what are the conditions for the cooling-to-space approximation to be valid? (Note that \cite{rodgers1966}, which is the standard reference, demonstrates the validity of the approximation empirically but not theoretically.) And finally, why does  the radiative tropopause temperature \Ttp\ appear to be fixed in our simulations? This bears a certain resemblance to the fixed temperature of anvil clouds  but is distinct from it, as the radiative tropopause and anvil peak are distinct features of the atmosphere and occur at quite different heights (approximately 17 km and 11 km, respectively, in our \Ts=300 K RCE simulation).
 
-There is also the question of robustness of our RCE results to choice of CRM. While CRMs do not employ as many parameterizations as GCMs, they must still choose sub-grid turbulence and microphysics schemes, which can lead to substantial uncertainties in some variables including cloud cover \cite[e.g.][]{tsushima2015, igel2014}. Since the arguments given here were clear-sky arguments and potentially relied on the low values of  cloud fraction exhibited by DAM, it is possible that the \Ts-invariance exhibited here may not hold as well in other CRMs. The upcoming RCE Model Intercomparison Project \cite[RCEMIP,][]{wing2017b} would make an ideal venue for investigating this.
+There is also the question of robustness of our RCE results to choice of CRM. Uncertainties in sub-grid turbulence and microphysics schemes can lead to substantial uncertainties in some variables, including cloud cover \cite[e.g.][]{tsushima2015, igel2014}. Since the arguments given here potentially relied on DAM's  low cloud fraction, it is possible that the \Ts-invariance exhibited here may not hold as well in other CRMs. The upcoming RCE Model Intercomparison Project \cite[RCEMIP,][]{wing2017b} would make an ideal venue for investigating this.
 
-Finally, we should emphasize that Eqn. \eqnref{dqdts_approx} makes it clear that the rate at which $\Qnet$ and $P$ scale with \Ts\ need not bear any resemblance to the  canonical $7\%\ \Kinverse$ Clausius-Clapeyron (CC) scaling of $\pvstar(T)$. Though CC scaling might play a role in setting $\beta$ or even \Ttp, there is far too much physics at play to expect a simple relationship between CC scaling and $dP/d\Ts$. We should thus think of  the CC and mean precipitation scalings  as independent constraints, one purely thermodynamic and the other largely radiative, with different physical origins. That they are independent and may thus be combined without circularity is what makes them powerful, allowing for e.g. a prediction of how convective mass fluxes change with warming \cite[][]{held2006}.
+Finally, we should emphasize that Eqn. \eqnref{dqdts_approx} makes it clear that the rate at which $\Qnet$ and $P$ scale with \Ts\ need not bear any resemblance to the  canonical $7\%\ \Kinverse$ Clausius-Clapeyron (CC) scaling of $\pvstar(T)$.  The CC and mean precipitation scalings  are independent constraints with different physical origins, the former purely thermodynamic and the latter largely radiative. That they are independent and may thus be combined without circularity is what makes them powerful, allowing for e.g. a prediction of how convective mass fluxes change with warming \cite[][]{held2006}.
 
 %\subsection*{Author Affiliations}
 %Include department, institution, and complete address, with the ZIP/postal code, for each author. Use lower case letters to match authors with institutions, as shown in the example. Authors with an ORCID ID may supply this information at submission.
@@ -441,16 +441,14 @@ Finally, we should emphasize that Eqn. \eqnref{dqdts_approx} makes it clear that
 
 %\subsubsection*{SI Figures}
 
-
-\matmethods{We here describe in detail our calculation of bin-averaged flux divergence profiles from GCM output.
+\matmethods{We here describe in detail our calculation of bin-averaged flux divergence profiles from GCM output. Note that all data used in constructing all the figures presented here can be found at https://github.com/jeevanje/rad\_cooling. 
 
 For a GCM column at a given longitude, latitude, and time (we use monthly mean output), we must first identify a range of tropospheric model levels $k$ over which the temperature $T$ varies monotonically. We identify the uppermost of these levels \kmax\ as the minimum  $k>10$ for which $T[k+1]>T[k]$. If none such exists (i.e. no stratospheric inversion) then $\kmax$ takes its highest possible value (i.e. model top).
 The minimum $k$ value $\kmin$ equals 1 if there is no inversion below \kmax, and otherwise is the largest $k< \kmax$ such that $T[k]>T[k-1]$. We then interpolate the column's SW and LW radiative fluxes over this $T$ range onto a uniform $T$ grid running from 150 to 350 K in increments of 2 K, and assign these interpolated profiles, weighted by column area,  to the appropriate \Ts\ bin using $T[1]$ (where \Ts-binning is done with the same uniform grid as for vertical levels $T$). We repeat this for each GCM column over the last 30 years of each simulation, keeping track of the accumulated column area for each bin and $T$ level. This allows us to produce an area-weighted average flux profile in each bin, where in a given bin the total area represented at each $T$ level drops off at lower and higher $T$  (due to small variations in $T[\kmin]$ and $T[\kmax]$ within the bin). These average flux profiles (one per bin) may then be differentiated with respect to $T$, yielding the $-\ppt \Fnet$ profiles shown in Fig. \ref{fnet_ipsl} and \ref{fnet_all}. To reduce artifacts from binning, the profiles are cut off once the total area at a given $T$ is less than 90\% of the maximum value in the vertical (where this maximum value is taken throughout most of that bin's tropospheric $T$ range, as expected). 
 %Also, for consistency with Figs. \ref{pptflw_tinv_dam} and \ref{pptfsw_tinv_dam} where profiles are only plotted above $\Tlcl \approx \Ts - 5$ K , we cut off each GCM profile at \Ts - 5 K.
 
-The decomposition of these net flux divergence profiles into their LW and SW components is given in Fig. S5, which shows that  \Ts-invariance aloft holds for the LW and SW separately in the GCMs, just as for the CRM.}
+The decomposition of these net flux divergence profiles into their LW and SW components is given in Fig. S5, which shows that  \Ts-invariance aloft holds for the LW and SW separately in the GCMs, just as for the CRM. }
 
-All data used in constructing the figures presented here can be found at 
 \showmatmethods % Display the Materials and Methods section
 
 \acknow{Thanks are due to Tim Merlis, Mark Cane, Jake Seeley,  David Paynter, Yi Ming, and Leo Donner for helpful comments during various stages of this work, as well as to two anonymous reviewers for their close reading and thoughtful comments. This research used computing resources of the National Energy Research Scientific Computing Center (NERSC), which is supported by the Office of Science of the US Department of Energy under Contract DE-AC02-05CH11231.}
