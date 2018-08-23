@@ -1,0 +1,63 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: rad_cooling_pnas.aux
+The style file: pnas-new.bst
+Database file #1: library.bib
+Repeated entry---line 3070 of file library.bib
+ : @article{Goldblatt2013
+ :                       ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 4741 of file library.bib
+ : @article{Pierrehumbert2010
+ :                           ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 7386 of file library.bib
+ : @article{Wing2017
+ :                  ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 8689 of file library.bib
+ : @article{Takahashi2009
+ :                       ,
+I'm skipping whatever remains of this entry
+You've used 38 entries,
+            1837 wiz_defined-function locations,
+            702 strings with 10268 characters,
+and the built_in function-call counts, 8966 in all, are:
+= -- 776
+> -- 426
+< -- 4
++ -- 128
+- -- 90
+* -- 745
+:= -- 1317
+add.period$ -- 73
+call.type$ -- 38
+change.case$ -- 36
+chr.to.int$ -- 0
+cite$ -- 38
+duplicate$ -- 406
+empty$ -- 855
+format.name$ -- 90
+if$ -- 1956
+int.to.chr$ -- 0
+int.to.str$ -- 38
+missing$ -- 37
+newline$ -- 152
+num.names$ -- 38
+pop$ -- 72
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 242
+stack$ -- 0
+substring$ -- 781
+swap$ -- 109
+text.length$ -- 4
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 102
+width$ -- 40
+write$ -- 372
+(There were 4 error messages)

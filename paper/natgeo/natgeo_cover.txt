@@ -1,9 +1,0 @@
-Dear Editors,
-
-This work seeks to explain the well-known but not very well understood fact that climate models robustly predict an increase of global mean precipitation by about 2-3% per degree of surface warming. We explain this by first employing the well-known  radiative constraint on precipitation, which is that condensation heating from rain must balance the column-integrated radiative cooling of the atmosphere. This reduces the precipitation problem to a radiation problem. We then demonstrate a heretofore undiscovered property of vertically-resolved radiative cooling profiles, which is that they are in some sense universal when plotted using temperature coordinates in the vertical. This leads to simple, predictive expressions for how column-integrated cooling and hence precipitation change with warming, and also provides insight into the 2-3% per K value exhibited by climate models.
-
-This work provides basic insight into the grossest feature of hydrological climate change, and should thus be of broad interest across the Geoscience community. 
-
-Sincerely,
-
-Nadir Jeevanjee

@@ -1,0 +1,312 @@
+\documentclass[9pt,twoside,lineno]{pnas-new}
+% Use the lineno option to display guide line numbers if required.
+
+%My Standard Shortcuts - these are frequently used below!
+\newcommand{\beqn}{\begin{equation}}
+\newcommand{\eeqn}{\end{equation}}
+\newcommand{\beqa}{\begin{eqnarray}}
+\newcommand{\eeqa}{\end{eqnarray}}
+\newcommand{\beqanonum}{\begin{eqnarray*}}
+\newcommand{\eeqanonum}{\end{eqnarray*}}
+\newcommand{\beqnonum}{\begin{equation*}}
+\newcommand{\eeqnonum}{\end{equation*}}
+\newcommand{\jump}{\vspace{0.5cm}}
+\newcommand{\bbf}{\begin{bf}}
+\newcommand{\ebf}{\end{bf}}
+\newcommand{\eqnref}[1]{(\ref{#1})}
+\newcommand{\defn}[1]{\begin{bf}\emph{#1}\end{bf}}
+\newcommand{\reals}{\ensuremath{\mathbb{R}}}
+\newcommand{\complex}{\ensuremath{\mathbb{C}}}
+\newcommand{\integers}{\ensuremath{\mathbb{Z}}}
+\newcommand{\half}{\ensuremath{\textstyle{\frac{1}{2}}}}
+\newcommand{\comment}[1]{\textcolor{blue}{[{#1}]}}
+
+
+%calculus shorthand
+\newcommand{\timeder}{\frac{d}{dt}}
+\newcommand{\partialder}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\partialderf}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
+\newcommand{\der}[2]{\ensuremath{\frac{d #1}{d #2}}}
+\newcommand{\dx}{\ensuremath{\frac{d}{dx}}}
+\newcommand{\ddx}{\ensuremath{\frac{d}{dx}}}
+\newcommand{\kvec}{\ensuremath{\vec{k}}}
+\newcommand{\uvec}{\ensuremath{\mathbf{u}}}
+\newcommand{\zhat}{\ensuremath{\mathbf{\hat{z}}}}
+\newcommand{\khat}{\ensuremath{\mathbf{\hat{k}}}}
+\newcommand{\unitvect}[1]{\ensuremath{\mathbf{\hat{#1}}}}
+\newcommand{\ppx}{\ensuremath{\partial_x}}
+\newcommand{\ppy}{\ensuremath{\partial_y}}
+\newcommand{\ppz}{\ensuremath{\partial_z}}
+\newcommand{\ppt}{\ensuremath{\partial_T}}
+%\newcommand{\ppp}{\ensuremath{\partial_p}}
+
+% radiation shorthand
+\newcommand{\cotwo}{\ensuremath{\mathrm{CO_2}}}
+\newcommand{\othree}{\ensuremath{\mathrm{O_3}}}
+\newcommand{\htwo}{\ensuremath{\mathrm{H_2O}}}
+\newcommand{\QLW}{\ensuremath{Q_\mathrm{LW}}}
+\newcommand{\QSW}{\ensuremath{Q_\mathrm{SW}}}
+\newcommand{\Qnet}{\ensuremath{Q_\mathrm{net}}}
+\newcommand{\FLW}{\ensuremath{F^\mathrm{LW}}}
+\newcommand{\FSW}{\ensuremath{F^\mathrm{SW}}}
+\newcommand{\FLWcs}{\ensuremath{F^\mathrm{LW}_{\mathrm{cs}}}}
+\newcommand{\FSWcs}{\ensuremath{F^\mathrm{SW}_{\mathrm{cs}}}}
+\newcommand{\USW}{\ensuremath{U^\mathrm{SW}}}
+\newcommand{\DSW}{\ensuremath{D^\mathrm{SW}}}
+\newcommand{\Fnet}{\ensuremath{F^\mathrm{net}}}
+\newcommand{\Fnetgl}{\ensuremath{F^\mathrm{net}_{\mathrm{gl}}}}
+\newcommand{\Fgl}{\ensuremath{F_{\mathrm{gl}}}}
+\newcommand{\olr}{\ensuremath{\mathrm{OLR}}}
+\newcommand{\OLR}{\ensuremath{\mathrm{OLR}}}
+\newcommand{\trans}{\ensuremath{\mathcal{T}}}
+\newcommand{\solar}{\ensuremath{I_0}}
+\newcommand{\cool}{\ensuremath{\mathcal{C}}}
+\newcommand{\cminverse}{\ensuremath{\mathrm{cm^{-1}}}}
+\newcommand{\pierre}{P10}
+\newcommand{\tauk}{\ensuremath{\tau_\lambda}}
+\newcommand{\Wmsq}{\ensuremath{\mathrm{W/m^2}}}
+\newcommand{\meter}{\ensuremath{\mathrm{m}}}
+\newcommand{\kg}{\ensuremath{\mathrm{kg}}}
+\newcommand{\km}{\ensuremath{\mathrm{km}}}
+\newcommand{\Kinverse}{\ensuremath{\mathrm{K^{-1}}}}
+\newcommand{\Kelvin}{\ensuremath{\mathrm{K}}}
+
+
+% meteorology shorthand
+\newcommand{\qv}{\ensuremath{q}}
+\newcommand{\rhov}{\ensuremath{\rho_\mathrm{v}}}
+\newcommand{\Hv}{\ensuremath{H_\mathrm{v}}}
+\newcommand{\Rv}{\ensuremath{R_\mathrm{v}}}
+\newcommand{\qa}{\ensuremath{q_a}}
+\newcommand{\qvstar}{\ensuremath{q^*}}
+\newcommand{\pvstar}{\ensuremath{p^*_{\mathrm{v}}}}
+\newcommand{\Ta}{\ensuremath{T_a}}
+\newcommand{\Tav}{\ensuremath{T_\mathrm{av}}}
+\newcommand{\Ts}{\ensuremath{T_\mathrm{s}}}
+\newcommand{\Tsgl}{\ensuremath{T_\mathrm{s,gl}}}
+\newcommand{\ps}{\ensuremath{p_s}}
+\newcommand{\RH}{\ensuremath{\mathrm{RH}}}
+\newcommand{\cld}{\ensuremath{\mathrm{Cld}}}
+\newcommand{\WVP}{\ensuremath{\mathrm{WVP}}}
+\newcommand{\ztop}{\ensuremath{z_\mathrm{top}}}
+\newcommand{\ztp}{\ensuremath{z_\mathrm{tp}}}
+\newcommand{\zlcl}{\ensuremath{z_\mathrm{LCL}}}
+\newcommand{\Tlcl}{\ensuremath{T_\mathrm{LCL}}}
+\newcommand{\Ttp}{\ensuremath{T_\mathrm{tp}}}
+\newcommand{\Text}{\ensuremath{T_\mathrm{ext}}}
+\newcommand{\ptp}{\ensuremath{p_\mathrm{tp}}}
+\newcommand{\lapseav}{\ensuremath{\Gamma_\mathrm{av}}}
+\newcommand{\gammaav}{\ensuremath{\Gamma_\mathrm{av}}}
+\newcommand{\Htauk}{\ensuremath{H_{\tau_k}}}
+\newcommand{\east}{\ensuremath{\mathrm{E}}}
+\newcommand{\north}{\ensuremath{\mathrm{N}}}
+\newcommand{\south}{\ensuremath{\mathrm{S}}}
+\newcommand{\tav}{\ensuremath{t_\mathrm{av}}}
+\newcommand{\kmax}{\ensuremath{k_\mathrm{max}}}
+\newcommand{\kmin}{\ensuremath{k_\mathrm{min}}}
+
+\newcommand{\figurepath}{../../../figures_paper/}
+%\newcommand{\figurepath}{./}
+
+\templatetype{pnassupportinginfo}
+
+\title{Mean Precipitation Change from a Deepening Troposphere}
+\author{Nadir Jeevanjee, David M. Romps}
+\correspondingauthor{Nadir Jeevanjee \\E-mail: nadirj@princeton.edu}
+
+\begin{document}
+
+%% Comment/remove this line before generating final copy for submission
+% \instructionspage  
+
+\maketitle
+
+%% Adds the main heading for the SI text. Comment out this line if you do not have any supporting information text.
+\SItext
+
+\section{CRM Simulations}
+\subsection{Organization}
+The spontaneous organization or `self-aggregation' of convection has been much studied recently \citep[see the review by][]{wing2017}. DAM, however, has not been shown to exhibit this behavior; indeed, the simulations of \cite{jeevanjee2013} were initialized in an aggregated state precisely because DAM would not spontaneously aggregate. The simulations in this study are no different, as shown in Fig. \ref{crm_crh} below, which plots snapshots of column relative humidity (CRH) on the last day of each simulation. CRH here is defined as the water vapor path $\int \rhov\, dz$ ($\kg/\meter^2$) divided by its saturation value. No organization is evident, and the low CRH values associated with aggregation \cite[0.3 and below, see Fig. 6 of][]{bretherton2005}  are not observed here.  Note that the absence in DAM of both self-aggregation as a well as a sub-grid turbulence scheme is consonant with the results of \cite{tompkins2017}, who show that entrainment of dry air into cloud updrafts via sub-grid turbulence parameterizations can be critical for  aggregation.
+
+
+\subsection{LW and SW flux divergence profiles}
+The main text argues that $(-\ppt \FLW)(T)$ and $(-\ppt \FSW)(T)$ are separately \Ts-invariant. We confirm this in Figs. \ref{pptflw_tinv_dam} and \ref{pptfsw_tinv_dam}, which as in Fig. 2 plot $-\ppt F$ profiles in $z$, $p$, and $T$ coordinates, but for the LW and SW bands separately.
+
+ 
+ \subsection{CRM clear-sky flux divergence profiles}
+The argument given in the main text for the \Ts-invariance of $-\ppt F$ is a clear-sky argument, but all-sky flux divergences are shown in Figs. 2, \ref{pptflw_tinv_dam} and \ref{pptfsw_tinv_dam}. We argue in the main text that this is permissible because cloud fraction in these simulations never surpasses $\sim 10 \%$ at any height, so it is the clear-sky physics which dominates. This claim is supported by the left and center panels of  Fig. \ref{pptfc}, which shows that the clear-sky flux divergence profiles are almost indistinguishable from the all-sky profiles in Figs. \ref{pptflw_tinv_dam} and \ref{pptfsw_tinv_dam}, and are also indeed  \Ts-invariant. The right panel of Fig. \ref{pptfc} directly contrasts the all-sky and clear-sky $-\ppt \Fnet$ profiles for the $\Ts=300$ K simulation, and confirms that the cloud-radiative effect in these simulations is not dramatic. 
+
+%=======%
+% RFM     %
+%=======%
+\section{Optical depth profiles}
+The main text argues that water vapor optical depth $\tauk(T)$  is \Ts-invariant. This argument was put forth by \cite{simpson1928} and \cite{ingram2010}, but has to our knowledge never been explicitly checked with a comprehensive radiative transfer calculation. Doing so with RRTM  is not straightforward, however, as RRTM is a `correlated-$k$' model producing band-averaged output, where each band (there are 16 in the LW) covers a wide range of absorption coefficients and optical depths  \citep[][]{mlawer1997}. We thus turn to a different, line-by-line radiative transfer model, RFM \citep{dudhia2017}. Feeding average $p$, $T$, and specific humidity profiles into RFM with the water vapor continuum turned on and no \cotwo\ produces the optical depth profiles shown in Fig. \ref{tauk_tinv}. These show a reasonable degree of \Ts-invariance across a wide range of surface optical depths (and hence absorption coefficients). Deviations from perfect \Ts-invariance are likely due to pressure broadening as well as changes in lapse rate $\Gamma(T)$ between simulations, but this requires further investigation. Temperature scaling  factors should not contribute to deviations from \Ts-invariance since these are also \Ts-invariant functions of $T$ \citep[e.g. Eq. (4.62) of reference ][]{pierrehumbert2010}. 
+
+%=======%  
+% GCMs   %
+%=======%
+
+\section{GCM analysis}
+
+\subsection{Variance of $-\ppt \Fnet$ and $\Gamma(T)$}
+\label{sec_pptfvar}
+Figure \ref{lapsevar_ipsl} plots the variance $\mathrm{Var}(\Gamma)$ of $\Gamma(T)$ within \Ts\ bins for various \Ts\ for the IPSL model (other models show similar results). A  pickup in variance in the lower atmosphere is evident, and a candidate \Text\ is given by the minimum temperature satisfying $T > 240$ K (to avoid the large variance regions in the upper atmosphere) and $\mathrm{Var}(\Gamma) > 0.5 \ \Kelvin^2/\km^2$, plotted in black dots and the dashed lines. 
+
+ By Eqns. (4--6) of the main text this implies a similar pickup in variance in $-\ppt\Fnet$, shown in Figure \ref{fnetvar_ipsl} (other models again show similar results, and calculations using clear-sky fluxes show a similar sharp pickup in variance, though the relatively large variances ultimately reached in the surface-based layers are sometimes smaller).  We then obtain a second candidate \Text\ as the minimum temperature level satisfying $T > 240$ K  and $\mathrm{Var}(-\ppt \Fnet) > 5\ (\Wmsq/\Kelvin)^2$. This \Text\ is again shown by black dots and dashed lines, and values are reasonably close to those obtained from $\mathrm{Var}(\Gamma)$.  If the \Text\ candidate derived from $\mathrm{Var}(-\ppt \Fnet)$ exists then it is used for \Text, as it better represents where the AMIP and AMIP4K $-\ppt\Fnet$ profiles diverge; if this \Text\ candidate does not exist  (as for the \Ts=250 K bin of the IPSL model), then \Text\ as diagnosed from $\mathrm{Var}(\Gamma)$ is used.
+
+\subsection{AMIP\textsubscript{ext} profiles for other \Ts\ bins}
+Figure 6  suggests that AMIP\textsubscript{ext} profiles are often a good approximation to the AMIP4K profiles, but this is not always the case (e.g. the IPSL panel). For a better sense of the robustness of agreement between AMIP\textsubscript{ext} and AMIP4K profiles,  we show the analogous panels but for the \Ts=280 K bins, rather than $\Ts=290$ K, in Fig. \ref{fnet_all_280}. These show  that AMIP\textsubscript{ext} profiles are typically a good approximation to the AMIP4K profiles, and that a failure of these profiles to line up seems to be the exception rather than the rule.
+
+\subsection{GCM clear-sky flux divergence and relative humidity profiles}
+In the main text we claimed that the near-surface features in the GCM $-\ppt\Fnet$ profiles in Figs. 5 and 6 were sometimes, but not always, due to cloud radiative effects (CRE). Figure \ref{fnetcs_270_all} show both all-sky and clear-sky $-\ppt\Fnet$ profiles for the AMIP case for all models for the $\Ts=270$ K bin, for which many models show a significant near-surface CRE. Figure \ref{fnetcs_290_all}, which is analogous to Fig. \ref{fnetcs_270_all} but for the $\Ts=290$ K bin, shows on the other hand that in this \Ts\ bin  the near-surface CRE across models is less consistent and less significant. 
+
+ Figure \ref{rh_all} supports the claim in the main text that \Ts-binned RH profiles also exhibit \Ts-invariance aloft, but have near-surface features which shift downwards with warming. RH profiles are binned exactly as for the radiative fluxes, as described in \emph{Materials and Methods}.
+ 
+Figure \ref{fswlw_all} shows  all-sky $-\ppt \FLW$ and $-\ppt \FSW$ for the \Ts=290 K (AMIP) and \Ts=294 K (AMIP4K) bins for all our CFMIP models, demonstrating that the \Ts-invariance in GCMs holds for both the LW and SW separately, just as for the CRM (Figs. \ref{pptflw_tinv_dam} and \ref{pptfsw_tinv_dam}).
+
+
+
+%%% Each figure should be on its own page
+
+%=====%
+ % CRM %
+ %=====%
+ 
+ %\pagebreak 
+ %Figure crm_crh
+\begin{figure}[h]
+        \begin{center}
+                        \includegraphics[scale=0.5]{\figurepath crm_crh.pdf}
+		\caption{Snapshots  of column relative humidity (CRH) from the last day of each RCE simulation. No organization is evident, and the low CRH values associated with aggregation ($\lesssim 0.3$) are not observed. 
+		\label{crm_crh}                
+		}
+        \end{center}
+\end{figure}
+
+%Figure pptflw_tinv_dam
+\begin{figure}[h]
+        \begin{center}
+                        \includegraphics[scale=0.5]{\figurepath pptflw_tinv_dam.pdf}
+		\caption{LW flux divergence  $-\ppt \FLW$, as diagnosed from RRTM coupled to our CRM RCE simulations at \Ts=(280,\ 290,\ 300,\ 310,\ 320) K. Fluxes are plotted from the lifting condensation level of each simulation to 22.5 km for clarity, and  in height, pressure, and temperature coordinates to emphasize the \Ts-invariance of  $(-\ppt \FLW)(T)$. 
+		\label{pptflw_tinv_dam}                
+		}
+        \end{center}
+\end{figure}
+
+%Figure pptfsw_tinv
+\begin{figure}[h]
+        \begin{center}
+                        \includegraphics[scale=0.5]{\figurepath pptfsw_tinv_dam.pdf}
+		\caption{As in  Fig. \ref{pptflw_tinv_dam}, but for the SW band.
+		\label{pptfsw_tinv_dam}                
+		}
+        \end{center}
+\end{figure}
+
+ %Figure pptfc
+\begin{figure}[h]
+        \begin{center}
+                        \includegraphics[scale=0.5]{\figurepath pptfc.pdf}
+                \caption{\textbf{Left}: Clear-sky LW flux divergence  $-\ppt \FLWcs$ \textbf{Center:} Clear-sky SW flux divergence  $-\ppt \FSWcs$  \textbf{Right:} Clear-sky and all-sky  net flux divergence for the $\Ts=300$ K simulations, all plotted as in Fig. 2. The left and center panels are almost identical to the right panels of Figs. \ref{pptflw_tinv_dam} and \ref{pptfsw_tinv_dam}, and the right panel above shows directly the small difference between the all-sky and clear-sky flux divergences for the \Ts=300 K simulation. 
+                \label{pptfc}
+                }
+        \end{center}
+\end{figure}
+
+%=====%
+% RFM %
+%=====%
+
+%Figure tauk_tinv
+\begin{figure}[h]
+        \begin{center}
+                        \includegraphics[scale=0.7]{\figurepath tauk_tinv.pdf}
+                \caption{Optical depth profiles $\tauk(T)$, obtained by feeding thermodynamic profiles from the RCE simulations  into the RFM line-by-line radiative transfer code. Profiles are shown for water vapor only at three different wavelengths corresponding to surface optical depths of 0.01, 1, and 100 in the \Ts=280 K simulation. A reasonable degree of \Ts-invariance is seen at each wavelength: over the 30 K range of \Ts,  the temperature at which these lines reach $\tauk=1$ for example (where cooling-to-space is maximized) varies by at most 8 K, or a little over 25\% of the \Ts\ range.
+                \label{tauk_tinv}
+                }
+        \end{center}
+\end{figure}
+
+
+%=====%
+% GCM %
+%=====%
+
+%Figure lapsevar_ipsl
+\begin{figure}[h]
+        \begin{center}
+                        \includegraphics[scale=0.7]{\figurepath lapsevar_IPSL-CM5A-LR.pdf}
+                \caption{
+                Variance of $\Gamma(T)$ within \Ts\ bins for the IPSL model. A fairly sharp pickup in the lower atmosphere is evident, similar to that found for $-\ppt \Fnet$ profiles (Fig. \ref{fnetvar_ipsl}). Black dots and dashed lines mark where the profiles exceed a threshold of $0.5\ \Kelvin^2/\km^2$ in the lower troposphere, showing that $T$ where the variance in $\Gamma$ picks up is comparable to the \Text\ diagnosed from the variance in $-\ppt \Fnet$.
+                \label{lapsevar_ipsl}
+                }
+        \end{center}
+\end{figure}
+
+%Figure fnetvar_ipsl
+\begin{figure}[h]
+        \begin{center}
+                       \includegraphics[scale=0.7]{\figurepath fnetvar_IPSL-CM5A-LR.pdf}
+                \caption{Variance of $-\ppt\Fnet$ within \Ts\ bins for the IPSL model. A fairly sharp pickup in the lower atmosphere is evident for most bins, which is then used to diagnose \Text, plotted in black dots. See SI text 3\ref{sec_pptfvar} for details.
+                \label{fnetvar_ipsl}
+                }
+        \end{center}
+\end{figure}
+
+%Figure fnet_all_280
+\begin{figure}[h]
+        \begin{center}
+                        \includegraphics[scale=0.6]{\figurepath fnet_all_280.pdf}
+                \caption{As in Fig. 6 of the main text but for the $\Ts=280$ K bins.
+                                \label{fnet_all_280}
+                }
+        \end{center}
+\end{figure}
+
+
+%Figure fnetcs_270_all
+\begin{figure}[h]
+        \begin{center}
+                        \includegraphics[scale=0.6]{\figurepath fnetcs_270_all.pdf}
+                \caption{All-sky and clear-sky $-\ppt\Fnet$ profiles for the AMIP case for all models for the $\Ts=270$ K bin. The majority of models show a significant near-surface CRE.
+                                \label{fnetcs_270_all}
+                }
+        \end{center}
+\end{figure}
+
+%Figure fnetcs_290_all
+\begin{figure}[h]
+        \begin{center}
+                        \includegraphics[scale=0.6]{\figurepath fnetcs_290_all.pdf}
+                \caption{As in Fig. \ref{fnetcs_270_all},  but for the $\Ts= 290$ K bin. The near-surface CRE is much less significant across models than for the $\Ts= 270$ K bin.
+                                \label{fnetcs_290_all}
+                }
+        \end{center}
+\end{figure}
+
+%Figure rh_all
+\begin{figure}[h]
+        \begin{center}
+                        \includegraphics[scale=0.6]{\figurepath rh_all.pdf}
+                \caption{RH profiles for our CFMIP models for the $\Ts=290$ (AMIP) and  $\Ts= 294$ K (AMIP4K) bins, computed just as for radiative fluxes. Like the $-\ppt\Fnet$ profiles, the RH profiles show \Ts-invariance aloft, but have lower-tropospheric features which shift downward (in temperature space) with warming.
+                                \label{rh_all}
+                }
+        \end{center}
+\end{figure}
+
+%Figure fswlw_all
+\begin{figure}[h!]
+	\begin{center}
+			\includegraphics[scale=0.6]{\figurepath fswlw_all.pdf}
+		\caption{ Profiles of $-\ppt \FSW$ and $-\ppt \FLW$ for the \Ts=290 K (AMIP) and 294 K (AMIP4K) bins for all six CFMIP models. This is similar to Fig. 6 of the main text, but with the flux divergence decomposed into the LW and SW bands to show  that \Ts-invariance in the mid and upper troposphere holds across models holds for both the LW and SW separately, just as for the CRM. 
+		\label{fswlw_all}
+		}
+	\end{center}
+\end{figure}
+
+%%% Add this line AFTER all your figures and tables
+\FloatBarrier
+
+\bibliography{library}
+
+\end{document}

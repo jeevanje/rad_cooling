@@ -1,0 +1,47 @@
+\begin{thebibliography}{1}
+
+\bibitem{wing2017}
+Wing AA, Emanuel K, Holloway CE, Muller C (2017) {Convective Self-Aggregation
+  in Numerical Simulations: A Review}.
+
+\bibitem{jeevanjee2013}
+Jeevanjee N, Romps DM (2013) {Convective self-aggregation, cold pools, and
+  domain size}.
+\newblock {\em Geophysical Research Letters} 40(5):994--998.
+
+\bibitem{bretherton2005}
+Bretherton CS, Blossey PN, Khairoutdinov MF (2005) {An Energy-Balance Analysis
+  of Deep Convective Self-Aggregation above Uniform SST}.
+\newblock {\em Journal of the Atmospheric Sciences} 62(12):4273--4292.
+
+\bibitem{tompkins2017}
+Tompkins AM, Semie (2017) {Organization of tropical convection in low vertical
+  wind shears: Role of updraft entrainment}.
+\newblock {\em Journal of Advances in Modeling Earth Systems} 6:513--526.
+
+\bibitem{simpson1928}
+Simpson G (1928) {Some Studies in Terrestrial Radiation}.
+\newblock {\em Memoirs of the Royal Meteorological Society} 2(16):69--95.
+
+\bibitem{ingram2010}
+Ingram WJ (2010) {A very simple model for the water vapour feedback on climate
+  change}.
+\newblock {\em Quarterly Journal of the Royal Meteorological Society}
+  136(646):30--40.
+
+\bibitem{mlawer1997}
+Mlawer EJ, Taubman SJ, Brown PD, Iacono MJ, Clough SA (1997) {Radiative
+  transfer for inhomogeneous atmospheres: RRTM, a validated correlated-k model
+  for the longwave}.
+\newblock {\em Journal of Geophysical Research} 102(D14):16663.
+
+\bibitem{dudhia2017}
+Dudhia A (2017) {The Reference Forward Model (RFM)}.
+\newblock {\em Journal of Quantitative Spectroscopy and Radiative Transfer}
+  186:243--253.
+
+\bibitem{pierrehumbert2010}
+Pierrehumbert RT (2010) {\em {Principles of Planetary Climate}}.
+\newblock (Cambridge University Press).
+
+\end{thebibliography}
